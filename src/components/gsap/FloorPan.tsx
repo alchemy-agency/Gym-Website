@@ -87,8 +87,14 @@ export function FloorPan({
   return (
     <div ref={wrap} className="relative overflow-hidden border-y border-line bg-void">
       <div className="lg:flex lg:h-[100dvh] lg:items-stretch">
-        {/* Static intro column. Stays put while the panels travel past it. */}
-        <div className="shrink-0 px-5 py-14 sm:px-8 lg:flex lg:w-[30rem] lg:flex-col lg:justify-center lg:px-12 lg:py-0">
+        {/* Static intro column. Stays put while the panels travel past it.
+            `data-floor-intro` is a test hook: the verification script probes
+            points inside this box with elementFromPoint to prove that clipped
+            panels never paint over the heading. */}
+        <div
+          data-floor-intro=""
+          className="shrink-0 px-5 py-14 sm:px-8 lg:flex lg:w-[30rem] lg:flex-col lg:justify-center lg:px-12 lg:py-0"
+        >
           <p className="label text-bone-3">{eyebrow}</p>
           <h2 className="display-2 mt-5 max-w-[14ch]">{heading}</h2>
           <p className="mt-5 max-w-[42ch] text-[0.9375rem] leading-relaxed text-bone-2">
@@ -115,6 +121,7 @@ export function FloorPan({
             {groups.map((group, i) => (
               <li
                 key={group.group}
+                data-floor-panel=""
                 className="flex min-h-[200px] flex-col justify-between bg-void p-6 sm:p-8 lg:min-h-[24rem] lg:w-[24rem] lg:shrink-0 lg:border-l lg:border-line lg:bg-transparent lg:px-9 lg:py-14"
               >
                 <span
@@ -128,7 +135,11 @@ export function FloorPan({
                   <h3 className="display-3 max-w-[14ch] text-bone">
                     {group.group}
                   </h3>
-                  <p className="mt-4 max-w-[30ch] text-[0.9375rem] leading-relaxed text-bone-2">
+                  {/* Fixed two-line box. Without it the content block is
+                      bottom-aligned and panels with a one-line body push their
+                      title lower than their neighbours, so the headings across
+                      the row visibly fail to line up. */}
+                  <p className="mt-4 max-w-[30ch] text-[0.9375rem] leading-relaxed text-bone-2 lg:min-h-[3.1rem]">
                     {group.items}
                   </p>
                 </div>
@@ -146,7 +157,7 @@ export function FloorPan({
               being sliced. Sits above the track, below nothing interactive. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-void to-transparent lg:block"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-28 bg-gradient-to-r from-void via-void/80 to-transparent lg:block"
           />
         </div>
       </div>

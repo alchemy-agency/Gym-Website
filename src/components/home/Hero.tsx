@@ -23,7 +23,7 @@ export function Hero() {
       <div className="glow-ember pointer-events-none absolute inset-x-0 top-0 h-[46rem]" />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.32fr_0.68fr] lg:gap-14">
           {/* Copy ---------------------------------------------------------- */}
           <div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">

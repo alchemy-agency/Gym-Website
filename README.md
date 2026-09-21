@@ -37,6 +37,8 @@ npm run dev                    # http://localhost:3000
 ```bash
 npm run typecheck              # tsc --noEmit
 npm run build                  # production build
+npm run verify                 # drives real Chromium; 77 render assertions
+npm run check                  # all three, in order
 ```
 
 ---
@@ -214,7 +216,7 @@ breaking them is what makes the site look generic again:
    inside the dark range (`ink` → `ink-4` → `void`) plus ember ambient light,
    never from a section inverting to light.
 2. **Hue lock** — the palette is warm neutral. There is no green, no blue and no
-   second accent. Ember (`#e04a17`) is the only colour, reserved for things that
+   second accent. Ember (`#ff610f`, the exact orange from the supplied brand mark) is the only colour, reserved for things that
    need to be found: the free session, live state, focus rings, meaningful
    numbers. It is never a large fill.
 3. **Shape lock** — corner radius is `0` everywhere. The only circle in the
@@ -282,68 +284,67 @@ filler.
 
 ---
 
-## Logo
+## Brand assets
 
-**Preview it at `/brand`** (noindex, not in the nav or sitemap). That page renders
-all three variants at 16, 20, 24, 32, 48, 64 and 96 pixels, in every colourway,
-plus the lockups and a browser-tab mock. Look at it before changing anything.
+These are the client's own files, imported rather than redrawn. Source copies
+live in `public/brand/source/`.
 
-### One family, three levels of detail
+| File | What it is |
+| --- | --- |
+| `public/brand/wordmark.svg` | Lockup: mark + SAM'S BODY SHOP, bone lettering |
+| `public/brand/wordmark-ink.svg` | Same, ink lettering, for light surfaces |
+| `public/brand/mark.svg` / `mark-bone.svg` | The "S" mark alone |
+| `src/app/icon.svg` | Favicon, used as supplied |
+| `src/components/brand/markPath.ts` | Generated path data for `<LogoMark>` |
 
-All three share the same construction, so they are interchangeable and
-unmistakably related:
+**Preview at `/brand`** (noindex, not in the nav or sitemap). It renders the mark
+at 16/20/24/32/48/64/96/160px, both lockup variants at every size, all three
+colourways, and the usage rules. Look at it before placing the logo anywhere.
 
+### Two changes made on import, both deliberate
+
+**1. The letter counters are now real holes.** The supplied wordmark faked the
+counters in B, D, O, P and A by painting them with a hard-coded `#080808` shape
+on top of the letterforms. That only works on the exact black it was drawn
+against: put it on bone and you get black blobs inside the letters. The counters
+are merged into the same path with `fill-rule="evenodd"` so they are genuine
+holes and the lockup is background independent.
+
+**2. The canvas was cropped.** The original viewBox was 1672x941 with the lockup
+floating in the middle of it. It is now tight to the artwork, so the lockup can
+be sized by height without guessing at padding.
+
+Everything else, including all path data, is untouched.
+
+### Regenerating
+
+```bash
+npm run brand      # re-imports from public/brand/source/
 ```
-grid        32 x 32, 4 unit safe margin all round
-silhouette  a 22 x 22 square, (5,5) to (27,27)
-chamfer     8 units at exactly 45 degrees, off the top right corner
-```
 
-The chamfer is not decoration. It is the same vocabulary as the radius-0 layout
-system, and it is what makes the mark read as a machined part rather than a
-rounded app icon.
+The script validates its own output: it rejects any entity XML does not define,
+unbalanced tags, and a missing counter punch-out. That guard exists because an
+`&rsquo;` in an SVG `<title>` shipped a broken logo once already: SVG is XML, so
+HTML entities like `&rsquo;` make the file unparseable, and the browser then
+renders a broken image **with no console error and no failed request**. Do not
+reintroduce a `<title>` element here; for an SVG loaded through `<img>` the
+accessible name comes from the `alt` attribute anyway.
 
-| Variant | Idea | Path |
-| --- | --- | --- |
-| **Billet** (default) | A block of stock, worked. The pocket is the outer silhouette scaled to 40% and rotated 180°, so the composition is point-symmetric. | `M5 5H19L27 13V27H5V5Z` + pocket, `evenodd` |
-| **Plate** | A loaded plate square on. The bore's centre is `(15.8, 16.3)`, not `(16, 16)`: the chamfer removes mass top-right, so the hole is nudged down-left to keep it optically balanced. | `M5 5H19L27 13V27H5V5Z` + bore, `evenodd` |
-| **Key** | A machined key blank. Two opposite corners off, no interior detail. Boldest silhouette, survives the smallest reproduction. | `M5 5H19L27 13V27H13L5 19Z` |
+### The HB qualifier
 
-The chamfered square on its own is a shape, not an idea. Each variant adds
-exactly one idea and nothing more.
+Rendered as a separate element beside the lockup, not baked into the SVG, so the
+logo file stays exactly as drawn. It earns its place: the trading name collides
+with a number of auto body shops called Sam's Body Shop. It is hidden below the
+`sm` breakpoint, where there is no room for it.
 
-### Switching
+### Typography note
 
-Set `DEFAULT_MARK` in `src/components/Logo.tsx` to `"billet"`, `"plate"` or
-`"key"`. That drives the nav, the mobile menu, the footer and the favicon source.
-To override in one place only, pass `mark="key"` to `<Logo>` or `<LogoMark>`.
-Then update `src/app/icon.svg` to match, since a favicon cannot read a JS
-constant.
-
-### Files
-
-- `src/components/Logo.tsx` — `<LogoMark>` and `<Logo>`. The mark inherits
-  `currentColor`, so one asset works on any background.
-- `public/brand/mark.svg`, `mark-bone.svg`, `mark-ink.svg` — the default mark
-- `public/brand/alt-plate.svg`, `alt-key.svg` — the alternatives
-- `src/app/icon.svg` — favicon
-- `src/app/brand/page.tsx` — the preview page
-
-### Wordmark
-
-The wordmark is **live text**, not outlined paths. That is the correct choice for
-the web: crisp at any density, selectable, translatable, and readable to
-assistive technology.
-
-For print or merchandise, export a lockup with the letterforms outlined from
-**Archivo Expanded Bold at -2% tracking**. The `wordmark` utility in
-`globals.css` is the single source of truth for those settings.
-
-One detail in the lockup worth not undoing: the hairline between the wordmark and
-`HB`. Without it, HB reads as part of the trading name.
+The wordmark is a custom oblique condensed face, so the site's display type is
+set to `font-stretch: 94%` in Archivo to echo its proportions rather than fight
+it. The headings stay upright, because a fully oblique site competes with the
+logo. Do not set the trading name in a web font: that is a different logo.
 
 ---
-
 ## File map
 
 ```
@@ -357,6 +358,7 @@ src/
     training/page.tsx       personal training + free session form
     function-health/page.tsx
     visit/page.tsx
+    brand/page.tsx          brand reference (noindex, internal only)
     privacy/page.tsx
     thank-you/page.tsx      conversion landing, fires the tracking event
     brand/page.tsx          logo preview (noindex, internal only)
@@ -369,6 +371,7 @@ src/
     ContactLinks, GoogleTag, Grain, MarkerGroups, PanelExplorer, Magnetic, Bento
     forms/LeadForm.tsx      both forms, field config in src/lib/lead.ts
     gsap/                   HeadlineReveal, Marquee, FloorPan, Counter
+    brand/markPath.ts       generated brand path data
     home/                   the home page sections
   content/                  ALL copy and business facts live here
     business.ts offers.ts panel.ts photos.ts

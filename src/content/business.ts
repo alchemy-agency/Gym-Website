@@ -59,7 +59,10 @@ export const hours: { label: string; value: string }[] = [
 export const nav = [
   { label: "The Gym", href: "/gym" },
   { label: "Training", href: "/training" },
-  { label: "The Panel", href: "/function-health" },
+  /* Spelled out rather than "The Panel". A cold visitor arriving from a Google
+     Ad has no idea what "The Panel" refers to, and this is the page that
+     carries the strongest reason to buy a block. */
+  { label: "Function Health", href: "/function-health" },
   { label: "Visit", href: "/visit" },
 ] as const;
 

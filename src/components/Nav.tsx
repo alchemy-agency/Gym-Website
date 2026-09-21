@@ -45,7 +45,7 @@ export function Nav() {
         )}
       >
         <div className="mx-auto flex h-full w-full max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12">
-          <Logo href="/" title={`${site.gymName}, home`} />
+          <Logo href="/" showCity title={`${site.gymName}, home`} />
 
           <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => {
@@ -74,12 +74,16 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/training#book"
-              className={buttonClass("primary", "sm", "hidden sm:inline-flex")}
-            >
-              {cta.freeSession}
-            </Link>
+            {/* Wrapped rather than putting `hidden sm:inline-flex` on the Link.
+                The button base class already sets `inline-flex`, so `hidden`
+                and `inline-flex` both apply below 640px and whichever Tailwind
+                emits last wins. That left the CTA visible on small screens and
+                pushed the menu button off the edge. */}
+            <div className="hidden sm:block">
+              <Link href="/training#book" className={buttonClass("primary", "sm")}>
+                {cta.freeSession}
+              </Link>
+            </div>
 
             <button
               type="button"

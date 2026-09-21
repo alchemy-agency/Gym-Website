@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 
+import { MARK_PATH } from "@/components/brand/markPath";
+
 export const alt =
   "Sam's Body Shop HB. Private gym and personal training in Huntington Beach.";
 export const size = { width: 1200, height: 630 };
@@ -8,7 +10,7 @@ export const contentType = "image/png";
 /* Palette is duplicated here as literals: `next/og` renders outside the CSS
    pipeline so it cannot read the design tokens. Keep in step with globals.css.
      ink #0c0c0b   bone #ecebe5   bone-2 #a7a59d   bone-3 #85837b
-     line #2a2a27  ember #e04a17 */
+     line #2a2a27  ember #ff610f */
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -21,14 +23,18 @@ export default function OpengraphImage() {
           justifyContent: "space-between",
           backgroundColor: "#0c0c0b",
           backgroundImage:
-            "radial-gradient(85% 70% at 88% -10%, rgba(224,74,23,0.22) 0%, rgba(12,12,11,0) 62%)",
+            "radial-gradient(85% 70% at 88% -10%, rgba(255,97,15,0.20) 0%, rgba(12,12,11,0) 62%)",
           padding: "68px 72px",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <svg width="26" height="26" viewBox="0 0 32 32">
-            <path d="M5 5H19L27 13V27H5V5Z" fill="#e04a17" />
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          {/* The supplied mark, drawn at its own coordinates. */}
+          <svg width="30" height="34" viewBox="369.73 312.37 490.02 554.43">
+            <path
+              d={MARK_PATH}
+              fill="#ff610f"
+            />
           </svg>
           <div
             style={{

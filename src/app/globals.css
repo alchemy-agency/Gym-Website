@@ -62,8 +62,11 @@
   --color-bone-3: #85837b;
 
   /* --- accent: ember (single, locked) ------------------------------------ */
-  --color-ember: #e04a17;
-  --color-ember-2: #ff6a38;
+  /* #ff610f is the exact orange from the supplied brand mark and favicon, not
+     an approximation of it. ember-2 is a lighter tint for hover and focus
+     text, where the base tone is too heavy on a near black surface. */
+  --color-ember: #ff610f;
+  --color-ember-2: #ff8a4d;
   --color-ember-deep: #61200a;
 }
 
@@ -154,21 +157,27 @@
    Display type scale. Uppercase, wide grotesque, machined.
    Italic descender clearance: leading and padding both reserve room.
    --------------------------------------------------------------------------- */
+/* Max is capped at 5rem, not 6.25rem. The home hero's longest line is
+   "without the crowd." which measures about 10.3em in Archivo Expanded Bold
+   uppercase, and the headline column is roughly 65% of the container. At a
+   larger cap that line wraps and the hero becomes four lines, which is a font
+   size error rather than a copy problem. `npm run verify` asserts the line
+   count so this cannot silently regress. */
 @utility display-1 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
-  font-stretch: 108%;
+  font-stretch: 94%;
   text-transform: uppercase;
   letter-spacing: -0.03em;
   line-height: 0.9;
-  font-size: clamp(2.6rem, 7.4vw, 6.25rem);
+  font-size: clamp(2.1rem, 4.9vw, 4.6rem);
   padding-bottom: 0.06em;
 }
 
 @utility display-2 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
-  font-stretch: 104%;
+  font-stretch: 94%;
   text-transform: uppercase;
   letter-spacing: -0.028em;
   line-height: 0.94;
@@ -179,6 +188,7 @@
 @utility display-3 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
+  font-stretch: 94%;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   line-height: 1.0;
