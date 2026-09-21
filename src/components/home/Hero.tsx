@@ -56,12 +56,19 @@ export function Hero() {
 
           {/* Plate --------------------------------------------------------- */}
           <div className="relative">
+            {/* Height is set to roughly match the photo's own aspect at this
+                column width, so `object-cover` has very little to trim. At the
+                old 44vh the box was landscape (1.07) around a 0.80 portrait
+                photo, so cover cut about 65px off the top and bottom and took
+                the runner's head off with it. `object-top` sends whatever
+                trimming is left to the bottom of the frame, which is track. */}
             <Plate
               photo={photos.runner}
               priority
               edge
               sizes="(min-width: 1024px) 46vw, 100vw"
-              className="h-[clamp(300px,44vh,560px)] w-full"
+              imgClassName="object-top"
+              className="h-[clamp(300px,44vh,620px)] w-full lg:h-[clamp(320px,54vh,620px)]"
             />
 
             {/* Machined corner ticks, echoing the chamfer in the logo mark. */}

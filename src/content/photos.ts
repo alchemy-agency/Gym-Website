@@ -29,7 +29,14 @@ export type Photo = {
 };
 
 export const photos = {
-  /** Sam's own photograph. Portrait, 0.80 aspect. */
+  /** Sam's own photograph. Portrait, 0.80 aspect.
+   *
+   *  RETOUCHED: the file Sam uploaded to his own site is a screenshot of a Wix
+   *  gallery and has a "2/3" counter badge baked into the top right corner,
+   *  directly above his head. Cropping it off would have jammed his head
+   *  against the top edge, so it was cloned out with a feathered patch from
+   *  the foliage to its left. Re-downloading this file from source will bring
+   *  the badge back. */
   runner: {
     src: "/images/runner-track.jpg",
     alt: "A runner mid-stride on an outdoor athletics track.",
