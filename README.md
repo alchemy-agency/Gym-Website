@@ -44,12 +44,29 @@ npm run build                  # production build
 ## Deploying to Vercel
 
 1. Push this repo to GitHub.
-2. In Vercel: **Add New → Project → import the repo**. Framework is detected
-   automatically. No build settings to change, no `vercel.json` needed.
+2. In Vercel: **Add New → Project → import the repo**. The framework is pinned
+   to Next.js by `vercel.json`, so there are no build settings to change.
 3. Add the environment variables from `.env.example` under
    **Settings → Environment Variables** (Production + Preview).
    At minimum set `NEXT_PUBLIC_SITE_URL` to the real domain.
 4. Deploy, then add the custom domain under **Settings → Domains**.
+
+### If you see "No Output Directory named public found"
+
+That means Vercel treated the project as a static site instead of a Next.js
+app. It normally happens when the Vercel project was created while the repo was
+still empty, so the framework preset defaulted to **Other** and got cached.
+
+Two fixes, and it is worth doing both:
+
+1. **In the repo** — `vercel.json` already pins `"framework": "nextjs"`.
+   Commit and redeploy.
+2. **In the dashboard** — go to **Settings → Build and Deployment → Framework
+   Preset**, set it to **Next.js**, and confirm **Output Directory** is empty
+   (not `public`). Then redeploy.
+
+Do not "fix" this by adding a `public/` directory. That silences the error but
+deploys an empty static site with none of the actual pages.
 
 The site has no database, no server state and no cron jobs, so it runs on the
 Vercel Hobby plan as-is. Every page except `/api/lead` and `/thank-you` is
