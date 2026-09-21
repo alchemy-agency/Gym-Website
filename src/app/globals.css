@@ -186,6 +186,17 @@
   padding-bottom: 0.05em;
 }
 
+/* The wordmark. Same family and weight as display type but expanded slightly
+   and tracked tighter, so it reads as a mark rather than as a headline. */
+@utility wordmark {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-stretch: 106%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
 /* Engraved workshop label. Deliberately SANS and sentence case: a small
    monospace all-caps label above every heading is the fastest way to make a
    dark site read as a terminal. */

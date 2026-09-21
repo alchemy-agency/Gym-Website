@@ -284,20 +284,63 @@ filler.
 
 ## Logo
 
-The mark is a solid square with the top-right corner chamfered at 45°, drawn on
-a 32×32 grid (`M5 5H19L27 13V27H5V5Z`). It encodes both ideas in one shape: a
-billet of stock material, and a loaded plate seen square on. The chamfer uses the
-same vocabulary as the radius-0 layout system.
+**Preview it at `/brand`** (noindex, not in the nav or sitemap). That page renders
+all three variants at 16, 20, 24, 32, 48, 64 and 96 pixels, in every colourway,
+plus the lockups and a browser-tab mock. Look at it before changing anything.
 
-- `src/components/Logo.tsx` — `<LogoMark>` (inherits `currentColor`) and
-  `<Logo>` (mark + wordmark lockup)
-- `public/brand/mark.svg`, `mark-bone.svg`, `mark-ink.svg` — standalone marks
+### One family, three levels of detail
+
+All three share the same construction, so they are interchangeable and
+unmistakably related:
+
+```
+grid        32 x 32, 4 unit safe margin all round
+silhouette  a 22 x 22 square, (5,5) to (27,27)
+chamfer     8 units at exactly 45 degrees, off the top right corner
+```
+
+The chamfer is not decoration. It is the same vocabulary as the radius-0 layout
+system, and it is what makes the mark read as a machined part rather than a
+rounded app icon.
+
+| Variant | Idea | Path |
+| --- | --- | --- |
+| **Billet** (default) | A block of stock, worked. The pocket is the outer silhouette scaled to 40% and rotated 180°, so the composition is point-symmetric. | `M5 5H19L27 13V27H5V5Z` + pocket, `evenodd` |
+| **Plate** | A loaded plate square on. The bore's centre is `(15.8, 16.3)`, not `(16, 16)`: the chamfer removes mass top-right, so the hole is nudged down-left to keep it optically balanced. | `M5 5H19L27 13V27H5V5Z` + bore, `evenodd` |
+| **Key** | A machined key blank. Two opposite corners off, no interior detail. Boldest silhouette, survives the smallest reproduction. | `M5 5H19L27 13V27H13L5 19Z` |
+
+The chamfered square on its own is a shape, not an idea. Each variant adds
+exactly one idea and nothing more.
+
+### Switching
+
+Set `DEFAULT_MARK` in `src/components/Logo.tsx` to `"billet"`, `"plate"` or
+`"key"`. That drives the nav, the mobile menu, the footer and the favicon source.
+To override in one place only, pass `mark="key"` to `<Logo>` or `<LogoMark>`.
+Then update `src/app/icon.svg` to match, since a favicon cannot read a JS
+constant.
+
+### Files
+
+- `src/components/Logo.tsx` — `<LogoMark>` and `<Logo>`. The mark inherits
+  `currentColor`, so one asset works on any background.
+- `public/brand/mark.svg`, `mark-bone.svg`, `mark-ink.svg` — the default mark
+- `public/brand/alt-plate.svg`, `alt-key.svg` — the alternatives
 - `src/app/icon.svg` — favicon
+- `src/app/brand/page.tsx` — the preview page
 
-The wordmark is **live text**, not outlined paths. That is the right call for the
-web: crisp at any density, selectable, and readable to assistive technology. For
-print or merchandise, export a lockup with the letterforms outlined from
-**Archivo Expanded Bold at -2% tracking**.
+### Wordmark
+
+The wordmark is **live text**, not outlined paths. That is the correct choice for
+the web: crisp at any density, selectable, translatable, and readable to
+assistive technology.
+
+For print or merchandise, export a lockup with the letterforms outlined from
+**Archivo Expanded Bold at -2% tracking**. The `wordmark` utility in
+`globals.css` is the single source of truth for those settings.
+
+One detail in the lockup worth not undoing: the hairline between the wordmark and
+`HB`. Without it, HB reads as part of the trading name.
 
 ---
 
@@ -316,6 +359,7 @@ src/
     visit/page.tsx
     privacy/page.tsx
     thank-you/page.tsx      conversion landing, fires the tracking event
+    brand/page.tsx          logo preview (noindex, internal only)
     not-found.tsx
     api/lead/route.ts       validate + forward form submissions
     sitemap.ts robots.ts opengraph-image.tsx icon.svg

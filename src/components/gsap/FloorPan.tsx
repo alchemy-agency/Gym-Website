@@ -39,20 +39,25 @@ export function FloorPan({
   body: string;
 }) {
   const wrap = useRef<HTMLDivElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLOListElement>(null);
 
   useEffect(() => {
     const wrapEl = wrap.current;
+    const viewportEl = viewport.current;
     const trackEl = track.current;
-    if (!wrapEl || !trackEl) return;
+    if (!wrapEl || !viewportEl || !trackEl) return;
 
     const mm = gsap.matchMedia();
 
     mm.add(
       "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
       () => {
+        /* Measured from the real clipping viewport rather than approximated
+           from window.innerWidth, so the last panel lands flush regardless of
+           how wide the intro column ends up. */
         const distance = () =>
-          Math.max(0, trackEl.scrollWidth - window.innerWidth * 0.62);
+          Math.max(0, trackEl.scrollWidth - viewportEl.clientWidth);
 
         const tween = gsap.to(trackEl, {
           x: () => -distance(),
@@ -94,16 +99,23 @@ export function FloorPan({
           </p>
         </div>
 
-        {/* Panned track */}
-        <div className="lg:flex lg:min-w-0 lg:flex-1 lg:items-center">
+        {/* Panned track.
+            The viewport MUST clip. Without `overflow-hidden` the track is
+            only clipped by the outer section, which spans the intro column
+            too, so translated panels slide over the heading instead of
+            disappearing behind it. */}
+        <div
+          ref={viewport}
+          className="relative lg:flex lg:min-w-0 lg:flex-1 lg:items-center lg:overflow-hidden"
+        >
           <ol
             ref={track}
-            className="flex flex-col gap-px bg-line lg:flex-row lg:flex-nowrap lg:items-stretch lg:bg-transparent lg:pl-10"
+            className="flex flex-col gap-px bg-line lg:w-max lg:shrink-0 lg:flex-row lg:flex-nowrap lg:items-stretch lg:gap-0 lg:bg-transparent lg:pl-12"
           >
             {groups.map((group, i) => (
               <li
                 key={group.group}
-                className="flex min-h-[200px] flex-col justify-between bg-void p-6 sm:p-8 lg:min-h-0 lg:w-[26rem] lg:shrink-0 lg:border-l lg:border-line lg:bg-transparent lg:px-10 lg:py-16"
+                className="flex min-h-[200px] flex-col justify-between bg-void p-6 sm:p-8 lg:min-h-[24rem] lg:w-[24rem] lg:shrink-0 lg:border-l lg:border-line lg:bg-transparent lg:px-9 lg:py-14"
               >
                 <span
                   aria-hidden="true"
@@ -124,8 +136,18 @@ export function FloorPan({
             ))}
 
             {/* Tail spacer so the last panel can clear the intro column. */}
-            <li aria-hidden="true" className="hidden lg:block lg:w-[28rem] lg:shrink-0" />
+            <li
+              aria-hidden="true"
+              className="hidden lg:block lg:w-[30rem] lg:shrink-0"
+            />
           </ol>
+
+          {/* Soft edge at the clip boundary so panels dissolve in rather than
+              being sliced. Sits above the track, below nothing interactive. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-16 bg-gradient-to-r from-void to-transparent lg:block"
+          />
         </div>
       </div>
 
