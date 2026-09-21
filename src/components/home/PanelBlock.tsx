@@ -36,7 +36,7 @@ export function PanelBlock() {
 
         {/* Stat row. The counter is the one thing on this page that measures
             something real, so it is allowed to be the largest number here. */}
-        <Reveal from="right" className="lg:pb-2">
+        <Reveal className="lg:pb-2">
           <div className="flex flex-wrap items-end gap-x-12 gap-y-6 border-t border-line-2 pt-6">
             <div>
               <p className="font-display text-[clamp(3rem,6vw,4.5rem)] font-bold leading-none tracking-[-0.05em] text-bone">

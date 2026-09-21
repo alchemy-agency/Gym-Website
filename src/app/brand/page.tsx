@@ -31,7 +31,7 @@ export default function BrandPage() {
       <Section className="pt-12 lg:pt-16" density="tight">
         <Label>Internal reference</Label>
         <h1 className="display-1 mt-6 max-w-[16ch] text-bone">
-          The mark
+          The mark{" "}
           <br />
           and the lockup.
         </h1>
@@ -48,8 +48,8 @@ export default function BrandPage() {
         <h2 className="display-2 max-w-[20ch]">The mark.</h2>
         <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
           The mark takes <code className="numeral text-ember-2">currentColor</code>,
-          so one asset works on any background. It survives down to 16 pixels,
-          which is where it spends most of its life.
+          so one asset works on any background. It resolves cleanly at 16 pixels,
+          which is the size it is seen at most often.
         </p>
 
         <div className="mt-10 grid gap-px bg-line sm:grid-cols-2">

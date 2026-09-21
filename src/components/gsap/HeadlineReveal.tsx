@@ -80,7 +80,14 @@ export function HeadlineReveal({
                 {wi < words.length - 1 ? " " : null}
               </Fragment>
             ))}
-            {li < lines.length - 1 ? <br /> : null}
+            {/* A space before the break so the words do not run together in
+                textContent. Invisible, and it fixes copy-paste. */}
+            {li < lines.length - 1 ? (
+              <>
+                {" "}
+                <br />
+              </>
+            ) : null}
           </span>
         );
       })}

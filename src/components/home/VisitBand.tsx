@@ -18,7 +18,7 @@ export function VisitBand() {
     <Section rule density="default" aria-labelledby="visit-heading">
       <Reveal>
         <h2 id="visit-heading" className="display-2 max-w-[20ch]">
-          On Autopark Drive, two minutes off the 405.
+          On Autopark Drive, just off the 405.
         </h2>
       </Reveal>
 
@@ -46,7 +46,7 @@ export function VisitBand() {
               className="mt-1 shrink-0 text-bone-3 transition-colors group-hover:text-ember-2"
             />
             <span className="text-[0.9375rem] leading-relaxed">
-              {contact.address.street}
+              {contact.address.street}{" "}
               <br />
               {contact.address.city}, {contact.address.state}{" "}
               {contact.address.zip}
@@ -89,8 +89,8 @@ export function VisitBand() {
           <h3 className="label text-bone-3">Reach Sam</h3>
           <ContactLinks layout="stack" className="mt-4" itemClassName="text-[0.9375rem]" />
           <p className="mt-5 max-w-[36ch] text-sm leading-relaxed text-bone-3">
-            Calling is the fastest route. Sam trains most of the day and picks
-            up between clients.
+            Calling is the fastest way to reach him. He is often training, so
+            leave a message if it rings out.
           </p>
         </div>
       </div>

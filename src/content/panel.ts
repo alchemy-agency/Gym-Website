@@ -71,7 +71,7 @@ export const panelSteps = [
   {
     n: "01",
     title: "You buy a session pack",
-    body: "The panel is added when you buy a block of sessions. It is not an upsell and there is no extra charge.",
+    body: "The panel is added when you buy the block. There is no separate charge and nothing to arrange in advance.",
   },
   {
     n: "02",
@@ -104,10 +104,10 @@ export const panelReasons = [
 export const panelFaq = [
   {
     q: "Do I pay extra for the panel?",
-    a: "No. It is included when you buy a session pack or ongoing coaching. Sam absorbs it as part of the package.",
+    a: "No. It is included in the price of a session pack or ongoing coaching.",
   },
   {
-    q: "Who actually runs the test?",
+    q: "Who runs the test?",
     a: `Function Health, the platform co-founded by ${panel.founder}. They order the panel, you attend a blood draw near you, and the results are delivered to their app. Sam is not involved in the testing side at all.`,
   },
   {
@@ -116,7 +116,7 @@ export const panelFaq = [
   },
   {
     q: "Do I have to take the panel to train here?",
-    a: "No. The free first session and single sessions are unaffected. The panel comes with packages because that is where it is most useful, over a longer training block.",
+    a: "No. The free first session and single sessions are unaffected. It comes with packages because a panel is most useful across a longer training block.",
   },
   {
     q: "What if I already have recent bloodwork?",

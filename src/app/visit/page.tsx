@@ -25,7 +25,8 @@ export default function VisitPage() {
         body={
           <p>
             You are welcome to look at the place before committing to anything.
-            Message Sam, or book a free session and see it while you train.
+            Call or email Sam, or book a free session and see it while you
+            train.
           </p>
         }
         aside={
@@ -61,7 +62,7 @@ export default function VisitPage() {
                 className="mt-1 shrink-0 text-bone-3 transition-colors group-hover:text-ember-2"
               />
               <span className="text-[0.9375rem] leading-relaxed">
-                {contact.address.street}
+                {contact.address.street}{" "}
                 <br />
                 {contact.address.city}, {contact.address.state}{" "}
                 {contact.address.zip}
@@ -108,8 +109,8 @@ export default function VisitPage() {
               itemClassName="text-[0.9375rem]"
             />
             <p className="mt-5 max-w-[34ch] text-sm leading-relaxed text-bone-3">
-              Calling is the fastest route. Sam trains most of the day and picks
-              up between clients.
+              Calling is the fastest way to reach him. He is often training, so
+              leave a message if it rings out.
             </p>
           </div>
         </div>
@@ -120,10 +121,8 @@ export default function VisitPage() {
               Finding the unit
             </h3>
             <p className="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-bone-2">
-              Autopark Drive runs through an industrial pocket just off the 405,
-              south of the freeway. Parking is directly outside the door. If you
-              cannot spot the unit on your first visit, call Sam and he will
-              walk you in.
+              Parking is directly outside the door. If you cannot spot the unit
+              on your first visit, call Sam and he will walk you in.
             </p>
           </div>
         </Reveal>

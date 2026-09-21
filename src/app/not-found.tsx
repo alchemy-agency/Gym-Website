@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
 import { ButtonLink } from "@/components/Button";
 import { Section } from "@/components/Section";
-import { cta } from "@/content/business";
-import { nav } from "@/content/business";
-import Link from "next/link";
+import { cta, nav } from "@/content/business";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

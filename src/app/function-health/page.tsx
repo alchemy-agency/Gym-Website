@@ -32,7 +32,7 @@ export default function FunctionHealthPage() {
       <PageHero
         title={
           <>
-            {panel.testCount}+ markers.
+            {panel.testCount}+ markers.{" "}
             <br />
             Included.
           </>
@@ -40,8 +40,8 @@ export default function FunctionHealthPage() {
         body={
           <p>
             Buy a block of sessions with Sam and the {panel.name} panel comes
-            with it. A {panel.valueLabel} annual membership, at no extra cost to
-            you.
+            with it. A membership that normally costs {panel.valueLabel}, at no
+            extra cost to you.
           </p>
         }
         actions={
@@ -71,9 +71,9 @@ export default function FunctionHealthPage() {
             Know your starting numbers.
           </h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
-            Most people start training without knowing their starting numbers.
-            Six months later they cannot tell what actually changed, so they
-            judge it on how they look and give up. This fixes that.
+            A panel is only useful if you do something with the numbers. Sam
+            uses them to decide what you train, and what to send you to a doctor
+            about.
           </p>
         </Reveal>
 
@@ -111,7 +111,7 @@ export default function FunctionHealthPage() {
             <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-bone-2">
               A wide clinical screen, grouped below by body system. This is a
               representative sample rather than the full test list, which runs
-              past {panel.testCount} individual markers.
+              to more than {panel.testCount} individual markers.
             </p>
 
             <div className="mt-10 flex flex-wrap items-end gap-x-12 gap-y-8">

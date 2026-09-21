@@ -25,7 +25,8 @@ const SECTIONS = [
     heading: "What we collect",
     body: [
       "Only what you type into a form. That is your name, phone number, email address, and whatever you tell us about your training history, schedule and goals.",
-      "We do not ask for payment details, government identifiers, or health records through this website. If you take a Function Health panel, that testing is handled by Function Health under their own privacy terms, and we never receive your payment information.",
+      "The form asks about your training history and goals, and the notes field invites you to mention old injuries so Sam can programme around them. Treat that as health information: give only what you are comfortable putting in a form, and bring the rest to your first session.",
+      "We do not ask for payment details or government identifiers through this website. If you take a Function Health panel, that testing is handled by Function Health under their own privacy terms, and we never see your payment information.",
     ],
   },
   {
@@ -111,10 +112,12 @@ export default function PrivacyPage() {
             <div className="mt-10">
               <h3 className="label text-bone-3">Photography</h3>
               <p className="mt-4 max-w-[68ch] text-[0.9375rem] leading-relaxed text-bone-2">
-                The photographs on this site are placeholders, licensed for
-                commercial use under the Unsplash License. They are being
-                replaced with photographs of the gym and of Sam. Credits:{" "}
-                {photoCredits.join("; ")}.
+                Most of the photographs on this site are Sam's own, taken at
+                the gym. The rest are licensed stock: the blood collection
+                tubes and the Huntington Beach pier. Stock credits:{" "}
+                {photoCredits
+                  .filter((c) => c !== "Sam's Body Shop")
+                  .join("; ")}.
               </p>
             </div>
 

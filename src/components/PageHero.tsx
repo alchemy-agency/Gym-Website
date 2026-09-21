@@ -46,7 +46,7 @@ export function PageHero({
           </div>
 
           {aside ? (
-            <Reveal delay={0.1} from="right">
+            <Reveal delay={0.1}>
               {aside}
             </Reveal>
           ) : null}

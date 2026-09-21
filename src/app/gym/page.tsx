@@ -61,7 +61,7 @@ export default function GymPage() {
       <Section rule density="default" aria-labelledby="reality-heading">
         <Reveal>
           <h2 id="reality-heading" className="display-2 max-w-[20ch]">
-            What membership actually gets you.
+            What membership gets you.
           </h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
             No equipment list here on purpose: lists go stale, and a list is a
@@ -98,9 +98,8 @@ export default function GymPage() {
               No contract maze. No enrolment fee.
             </h2>
             <p className="mt-5 max-w-[54ch] text-base leading-relaxed text-bone-2">
-              Most gyms make their money on people who stop coming. This one is
-              capped, so it cannot afford to. The terms are short because there
-              is not much to say.
+              The terms are short because there is not much to them. A capped
+              gym has no reason to tie anybody in.
             </p>
 
             <ul className="mt-10 border-t border-line">
@@ -109,7 +108,7 @@ export default function GymPage() {
                 "No enrolment fee and no annual commitment to sign.",
                 "A programme is written for you when you join, at no extra cost.",
                 "Form checks on the floor whenever Sam is in the building.",
-                "Cancel by telling Sam. No retention call, no notice period games.",
+                "Cancel by telling Sam. No retention call, no notice period.",
               ].map((item) => (
                 <li
                   key={item}
@@ -156,7 +155,7 @@ export default function GymPage() {
 
       <Process
         steps={gymSteps}
-        heading="Applying takes four fields."
+        heading="Applying takes a couple of minutes."
         body="Sam reads every application himself and replies with times to walk the floor. There is no automated approval and no sales call queue."
         tone="ink"
         id="gym-process"
@@ -170,8 +169,8 @@ export default function GymPage() {
               Apply for membership.
             </h2>
             <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-bone-2">
-              Four required fields. Sam will come back to you, usually the same
-              day, with times to see the gym.
+              A short form. Sam will come back to you, usually the same day,
+              with times to see the gym.
             </p>
 
             <div className="mt-10">
@@ -183,7 +182,7 @@ export default function GymPage() {
             </div>
           </Reveal>
 
-          <Reveal from="right" delay={0.06}>
+          <Reveal delay={0.06}>
             <div className="border border-line bg-ink-2 p-6 sm:p-8">
               <span className="label text-bone-3">Before you apply</span>
               <dl className="mt-5 divide-y divide-line border-t border-line">

@@ -289,6 +289,99 @@ async function run() {
   }
 
   /* ---------------------------------------------------------------------
+     2c. Revealed blocks must actually become visible.
+         The clip-path wipe variant hid itself at inset(0 0 0 100%), which is
+         zero-area, so IntersectionObserver reported "never intersecting" and
+         whileInView never fired. The element stayed invisible forever. This is
+         the assertion that was missing: not "is the attribute present" but
+         "did it end up painted".
+     --------------------------------------------------------------------- */
+  for (const route of ["/", "/gym", "/training", "/function-health", "/visit"]) {
+    const context = await browser.newContext({ viewport: DESKTOP });
+    const page = await context.newPage();
+    await page.goto(BASE + route, { waitUntil: "networkidle" });
+    await page.waitForTimeout(800);
+
+    await page.evaluate(async () => {
+      /* Realistic pacing. Jumping most of a viewport per frame makes
+         IntersectionObserver miss blocks, which produces false failures. */
+      const total = document.body.scrollHeight - window.innerHeight;
+      for (let i = 1; i <= 80; i++) {
+        window.scrollTo(0, Math.round((total * i) / 80));
+        await new Promise((r) => setTimeout(r, 50));
+      }
+      /* Stay at the bottom. Scrolling back to the top first would make every
+         below-the-fold block legitimately hidden again and the assertion would
+         report a page full of false failures. */
+    });
+    await page.waitForTimeout(1400);
+
+    const stuck = await page.evaluate(() =>
+      [...document.querySelectorAll("[data-reveal]")]
+        .filter((el) => {
+          const cs = getComputedStyle(el);
+          const hidden = Number(cs.opacity) < 0.85 || cs.visibility === "hidden";
+          const zeroArea =
+            cs.clipPath !== "none" && /100%/.test(cs.clipPath);
+          return hidden || zeroArea;
+        })
+        .map((el) => {
+          const cs = getComputedStyle(el);
+          return `${el.tagName.toLowerCase()} opacity=${cs.opacity} clip=${cs.clipPath} "${(el.textContent ?? "").trim().slice(0, 34)}"`;
+        }),
+    );
+
+    record(
+      route,
+      "every revealed block is actually painted",
+      stuck.length === 0,
+      stuck.slice(0, 3).join(" | "),
+    );
+    await context.close();
+  }
+
+  /* ---------------------------------------------------------------------
+     2a. The count-up must never be left reading zero.
+         ScrollTrigger samples on animation frames, so a fast scroll could
+         carry this element past the viewport between samples and the callback
+         never fired, leaving a section headed "0+ markers measured".
+     --------------------------------------------------------------------- */
+  for (const label of ["fast", "slow"]) {
+    const context = await browser.newContext({ viewport: DESKTOP });
+    const page = await context.newPage();
+    await page.goto(BASE + "/", { waitUntil: "networkidle" });
+    await page.waitForTimeout(1200);
+
+    if (label === "fast") {
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    } else {
+      await page.evaluate(async () => {
+        const step = window.innerHeight * 0.6;
+        for (let y = 0; y < document.body.scrollHeight; y += step) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 90));
+        }
+      });
+    }
+    await page.waitForTimeout(2600);
+
+    const text = await page.evaluate(() => {
+      const p = [...document.querySelectorAll("p")].find((el) =>
+        el.textContent.includes("markers measured"),
+      );
+      return p?.parentElement?.querySelector("p")?.textContent?.trim() ?? null;
+    });
+
+    record(
+      "counter",
+      `final value after ${label} scroll`,
+      text === "160+",
+      text === null ? "element not found" : `reads "${text}"`,
+    );
+    await context.close();
+  }
+
+  /* ---------------------------------------------------------------------
      2b. Background plates must actually cover their container.
          A Tailwind position-utility collision once collapsed a full-bleed
          background photo into a 50px strip. Nothing else noticed: the image

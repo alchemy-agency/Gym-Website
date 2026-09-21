@@ -61,12 +61,12 @@ export default function TrainingPage() {
       <Section tone="ink-2" rule density="default" aria-labelledby="focus-heading">
         <Reveal>
           <h2 id="focus-heading" className="display-2 max-w-[22ch]">
-            Four things he is actually training for.
+            Four things he trains for.
           </h2>
           <p className="mt-5 max-w-[56ch] text-base leading-relaxed text-bone-2">
             Different methods, different muscle fibres, different intensities.
-            Every block of sessions is built to move all four of these, not just
-            the one you asked about.
+            A block of sessions works on all four, not only the one you came in
+            asking about.
           </p>
         </Reveal>
 
@@ -192,9 +192,9 @@ export default function TrainingPage() {
         </div>
 
         <p className="mt-8 max-w-[70ch] text-xs leading-relaxed text-bone-3">
-          Single sessions are available indefinitely, so you are never forced
-          into a block. The block exists because it costs less per session and
-          it carries the {panel.name} panel.
+          You can keep buying single sessions for as long as you like. The
+          block is the better value because it carries the {panel.name}
+          panel.
         </p>
       </Section>
 
@@ -250,7 +250,7 @@ export default function TrainingPage() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <Reveal from="right">
+            <Reveal>
               <div className="border border-line bg-ink-2 p-6 sm:p-8">
                 <Quotes
                   size={20}

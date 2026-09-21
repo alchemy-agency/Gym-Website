@@ -90,7 +90,7 @@ export function Footer() {
                 className="mt-0.5 shrink-0 text-bone-3 transition-colors group-hover:text-ember-2"
               />
               <span>
-                {contact.address.street}
+                {contact.address.street}{" "}
                 <br />
                 {contact.address.city}, {contact.address.state} {contact.address.zip}
               </span>

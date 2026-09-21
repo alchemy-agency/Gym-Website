@@ -16,7 +16,7 @@ export const gymPath = {
   kicker: "Membership",
   title: "The private gym",
   summary:
-    "A fully equipped training floor on Autopark Drive, capped at a small number of members. No crowds, no queue for the rack, no monthly contract you forget to cancel.",
+    "A members-only gym on Autopark Drive, capped at a small number of members. No crowds, no queue for anything, no monthly contract you forget to cancel.",
   facts: [
     { label: "Access", value: "Members only" },
     { label: "Capacity", value: "Deliberately capped" },
@@ -58,7 +58,7 @@ export const packages: Package[] = [
     name: "The first session",
     positioning: "Free",
     detail:
-      "Sixty minutes with Sam in the gym. He watches how you move, asks what you are actually training for, and puts you through a real workout.",
+      "Sixty minutes with Sam in the gym. He watches how you move, asks what you are training for, and puts you through a real workout.",
     includes: [
       "Movement and injury history review",
       "A full training session, not a sales tour",
@@ -90,7 +90,7 @@ export const packages: Package[] = [
       "Two to three sessions a week",
       "Continuous programming and load management",
       "Complimentary Function Health panel",
-      "Direct line to Sam between sessions",
+      "Sessions in the private gym, so no membership fee on top",
     ],
     includesPanel: true,
   },
@@ -174,7 +174,7 @@ export const gymSteps = [
   {
     n: "01",
     title: "Send the application",
-    body: "Four fields. Sam reads every one himself, usually the same day.",
+    body: "A short form. Sam reads every one himself, usually the same day.",
   },
   {
     n: "02",
@@ -202,7 +202,7 @@ export const trainingSteps = [
   {
     n: "02",
     title: "Train, and be assessed",
-    body: "Sam tests where you actually are, not where a questionnaire says you are.",
+    body: "Sam tests where you are, not where a questionnaire says you are.",
   },
   {
     n: "03",
@@ -280,11 +280,11 @@ export const gymFaq = [
   },
   {
     q: "Is there somewhere to park?",
-    a: "Yes, directly outside on Autopark Drive. It is one of the quieter advantages of the location.",
+    a: "Yes, directly outside. Parking is one of the better things about the location.",
   },
   {
     q: "Can I cancel?",
-    a: "Yes. No cancellation phone call, no retention offer, no notice period beyond telling Sam.",
+    a: "Yes. Cancelling means telling Sam. There is no retention call and no notice period.",
   },
 ] as const;
 
@@ -299,7 +299,7 @@ export const trainingFaq = [
   },
   {
     q: "Do I need to be fit already?",
-    a: "No. Sam has trained people starting from nothing and people returning from injury. The programme is written for where you are, not where someone else is.",
+    a: "No. The programme is written for where you are now, not where someone else is. Tell Sam about old injuries and he will work around them.",
   },
   {
     q: "How often should I train?",
@@ -307,7 +307,7 @@ export const trainingFaq = [
   },
   {
     q: "Do I have to buy a package?",
-    a: "No. You can buy single sessions indefinitely. The package exists because it is cheaper per session and it includes the Function Health panel.",
+    a: "No. You can buy single sessions for as long as you like. The block is the better value because it carries the Function Health panel.",
   },
   {
     q: "What does the Function Health panel cost me?",
