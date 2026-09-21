@@ -1,8 +1,11 @@
+"use client";
+
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
+import { trackScheduleClick } from "@/lib/tracking";
 
 type Variant = "primary" | "outline" | "quiet" | "ghost";
 type Size = "sm" | "md" | "lg";
@@ -95,6 +98,32 @@ export function ButtonLink({
   ...rest
 }: LinkProps) {
   const isInternalRoute = href.startsWith("/");
+
+  /* Booking leaves the site for Calendly, so the click is the only conversion
+     signal the site can send. Attaching it here means no caller has to
+     remember, and there is one place to change if the calendar URL moves. */
+  const onClick =
+    href.includes("calendly.com")
+      ? (event: React.MouseEvent<HTMLAnchorElement>) => {
+          trackScheduleClick("button");
+          rest.onClick?.(event);
+        }
+      : rest.onClick;
+
+  if (href.includes("calendly.com")) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+        onClick={onClick}
+        className={buttonClass(variant, size, className)}
+        {...rest}
+      >
+        <Inner arrow={arrow}>{children}</Inner>
+      </a>
+    );
+  }
 
   if (isInternalRoute) {
     return (

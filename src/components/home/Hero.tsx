@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/Button";
 import { HeadlineReveal } from "@/components/gsap/HeadlineReveal";
 import { Magnetic } from "@/components/Magnetic";
 import { Plate } from "@/components/Plate";
-import { cta } from "@/content/business";
+import { calendlyUrl, cta } from "@/content/business";
 import { photos } from "@/content/photos";
 
 /**
@@ -44,7 +44,7 @@ export function Hero() {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic>
-                <ButtonLink href="/training#book" size="lg" arrow>
+                <ButtonLink href={calendlyUrl} size="lg" arrow>
                   {cta.freeSession}
                 </ButtonLink>
               </Magnetic>

@@ -5,7 +5,7 @@ import { Counter } from "@/components/gsap/Counter";
 import { PanelExplorer } from "@/components/PanelExplorer";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
-import { cta } from "@/content/business";
+import { calendlyUrl, cta } from "@/content/business";
 import { panel, panelDisclaimer, panelReasons } from "@/content/panel";
 
 /**
@@ -88,7 +88,7 @@ export function PanelBlock() {
 
       <div className="mt-12 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <ButtonLink href="/training#book" size="lg" arrow>
+          <ButtonLink href={calendlyUrl} size="lg" arrow>
             {cta.freeSession}
           </ButtonLink>
           <ButtonLink href="/function-health" variant="outline" size="lg">

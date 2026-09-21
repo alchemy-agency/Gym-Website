@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { cta, nav, site } from "@/content/business";
+import { calendlyUrl, cta, nav, site } from "@/content/business";
 import { cn } from "@/lib/cn";
 
 import { buttonClass } from "./Button";
@@ -80,7 +80,7 @@ export function Nav() {
                 emits last wins. That left the CTA visible on small screens and
                 pushed the menu button off the edge. */}
             <div className="hidden sm:block">
-              <Link href="/training#book" className={buttonClass("primary", "sm")}>
+              <Link href={calendlyUrl} className={buttonClass("primary", "sm")}>
                 {cta.freeSession}
               </Link>
             </div>
@@ -130,7 +130,7 @@ export function Nav() {
           </nav>
 
           <div className="flex flex-col gap-3 px-5 pt-8 sm:px-8">
-            <Link href="/training#book" className={buttonClass("primary", "lg")}>
+            <Link href={calendlyUrl} className={buttonClass("primary", "lg")}>
               {cta.freeSession}
             </Link>
             <Link href="/gym#apply" className={buttonClass("outline", "lg")}>

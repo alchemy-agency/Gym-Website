@@ -28,8 +28,23 @@ export function Space() {
         />
       </div>
 
-      <Section rule density="default" aria-labelledby="space-heading">
-        <Reveal>
+      <Section
+        rule
+        density="default"
+        className="overflow-hidden"
+        aria-labelledby="space-heading"
+      >
+        {/* Second and last placement. The grid below is plain by design, so a
+            faint mahiole in the dead space above it stops the section reading
+            as an empty list of statements. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-40 -top-24 h-[34rem] w-[34rem] opacity-[0.04]"
+        >
+          <div className="mahiole h-full w-full" />
+        </div>
+
+        <Reveal className="relative">
           <h2 id="space-heading" className="display-2 max-w-[22ch]">
             A members-only room, run by the person who coaches in it.
           </h2>

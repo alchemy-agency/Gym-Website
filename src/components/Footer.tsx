@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ContactLinks } from "@/components/ContactLinks";
 import { Logo } from "@/components/Logo";
-import { contact, cta, hours, isInstagramEnabled, nav, site } from "@/content/business";
+import { calendlyUrl, contact, cta, hours, isInstagramEnabled, nav, site } from "@/content/business";
 
 const trainingLinks = [
   { label: "The private gym", href: "/gym" },
@@ -30,7 +30,7 @@ export function Footer() {
             </p>
 
             <Link
-              href="/training#book"
+              href={calendlyUrl}
               className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-bone transition-colors hover:text-ember-2"
             >
               {cta.freeSession}

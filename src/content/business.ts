@@ -79,6 +79,19 @@ export const cta = {
 } as const;
 
 /* ---------------------------------------------------------------------------
+   WHERE THE TWO ACTIONS GO
+   ---------------------------------------------------------------------------
+   Training bookings are handled entirely by Calendly. Sam's calendar is the
+   source of truth for availability, so the site does not try to collect times
+   itself. Nothing about a booking is stored here, and the confirmation email
+   comes from Calendly.
+
+   Membership is the opposite: it is an application, reviewed by hand, so it
+   stays on site at /gym#apply.
+   --------------------------------------------------------------------------- */
+export const calendlyUrl = "https://calendly.com/saxelrode/30min";
+
+/* ---------------------------------------------------------------------------
    CREDENTIALS
    Only claims that are verifiable from Sam's own material or certification
    bodies. Nothing invented.

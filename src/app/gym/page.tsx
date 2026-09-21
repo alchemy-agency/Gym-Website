@@ -10,7 +10,7 @@ import { Plate } from "@/components/Plate";
 import { Process } from "@/components/Process";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
-import { contact, cta } from "@/content/business";
+import { calendlyUrl, contact, cta } from "@/content/business";
 import {
   gymFaq,
   gymPath,
@@ -43,7 +43,7 @@ export default function GymPage() {
             <ButtonLink href="#apply" size="lg" arrow>
               {cta.membership}
             </ButtonLink>
-            <ButtonLink href="/training#book" variant="outline" size="lg">
+            <ButtonLink href={calendlyUrl} variant="outline" size="lg">
               {cta.freeSession}
             </ButtonLink>
           </>

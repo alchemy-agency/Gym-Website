@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Dot } from "@/components/Bits";
 import { Plate } from "@/components/Plate";
+import { calendlyUrl } from "@/content/business";
 import { gymPath, trainingPath } from "@/content/offers";
 import type { Photo } from "@/content/photos";
 import { photos } from "@/content/photos";
@@ -29,7 +30,7 @@ const PANELS: {
        it stops the section from burning two of the site's handful of real
        photographs to say the same thing twice. */
     cta: "How training works",
-    href: "/training#book",
+    href: calendlyUrl,
   },
 ];
 

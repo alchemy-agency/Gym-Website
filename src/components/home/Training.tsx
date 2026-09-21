@@ -1,3 +1,4 @@
+import { calendlyUrl } from "@/content/business";
 import { Quotes } from "@phosphor-icons/react/dist/ssr";
 
 import { Reveal } from "@/components/Reveal";
@@ -81,7 +82,7 @@ export function Training() {
             <p className="mt-6 text-sm text-bone-3">
               The way in is simple:{" "}
               <a
-                href="/training#book"
+                href={calendlyUrl}
                 className="text-bone underline decoration-ember decoration-2 underline-offset-4 transition-colors hover:text-ember-2"
               >
                 book a free session

@@ -10,7 +10,7 @@ import { Plate } from "@/components/Plate";
 import { Process } from "@/components/Process";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
-import { cta } from "@/content/business";
+import { calendlyUrl, cta } from "@/content/business";
 import {
   panel,
   panelDisclaimer,
@@ -46,7 +46,7 @@ export default function FunctionHealthPage() {
         }
         actions={
           <>
-            <ButtonLink href="/training#book" size="lg" arrow>
+            <ButtonLink href={calendlyUrl} size="lg" arrow>
               {cta.freeSession}
             </ButtonLink>
             <ButtonLink href="#measures" variant="outline" size="lg">

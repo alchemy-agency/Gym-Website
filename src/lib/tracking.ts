@@ -89,6 +89,24 @@ export function trackLead(
   }
 }
 
+/**
+ * A click through to the booking calendar.
+ *
+ * This is the closest the site can get to the booking itself: the appointment
+ * is confirmed on Calendly, not here, so this fires on the click and Calendly
+ * sends its own conversion for the completed booking. Both are worth having.
+ */
+export function trackScheduleClick(location: string): void {
+  push({ event: "schedule_session", location });
+
+  if (GA4_ID) {
+    gtag("event", "schedule_session", { location });
+  }
+  if (GADS_ID) {
+    gtag("event", "conversion", { send_to: `${GADS_ID}/schedule` });
+  }
+}
+
 /** Phone taps are a real conversion for a local business. */
 export function trackCall(location: string): void {
   push({ event: "click_to_call", location });

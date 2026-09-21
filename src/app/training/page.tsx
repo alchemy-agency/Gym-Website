@@ -5,12 +5,11 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqSection } from "@/components/FaqSection";
-import { LeadForm } from "@/components/forms/LeadForm";
 import { PageHero } from "@/components/PageHero";
 import { Plate } from "@/components/Plate";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
-import { contact, cta } from "@/content/business";
+import { calendlyUrl, contact, cta } from "@/content/business";
 import { packages, trainingFaq, trainingFocus } from "@/content/offers";
 import { panel } from "@/content/panel";
 import { photos } from "@/content/photos";
@@ -235,17 +234,21 @@ export default function TrainingPage() {
                 Book the free session.
               </h2>
               <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-bone-2">
-                Tell Sam what you are working toward. He will come back to you
-                with times, usually the same day.
+                Sixty minutes, one to one, in the private gym. Pick a time that
+                suits you and it is confirmed straight away. No card, no
+                deposit, nothing to sign.
               </p>
 
               <div className="mt-10">
-                <LeadForm
-                  kind="free_session"
-                  submitLabel={cta.freeSession}
-                  note="No card, no deposit, no obligation past the hour. Sam replies personally."
-                />
+                <ButtonLink href={calendlyUrl} size="lg" arrow>
+                  {cta.freeSession}
+                </ButtonLink>
               </div>
+
+              <p className="mt-5 max-w-[52ch] text-xs leading-relaxed text-bone-3">
+                Booking opens Sam&rsquo;s calendar on Calendly. Nothing about
+                the session is stored on this site.
+              </p>
             </Reveal>
           </div>
 

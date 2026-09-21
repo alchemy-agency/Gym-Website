@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ButtonLink } from "@/components/Button";
 import { Section } from "@/components/Section";
-import { cta, nav } from "@/content/business";
+import { calendlyUrl, cta, nav } from "@/content/business";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -26,7 +26,7 @@ export default function NotFound() {
         <ButtonLink href="/" size="lg" arrow>
           Back to the home page
         </ButtonLink>
-        <ButtonLink href="/training#book" variant="outline" size="lg">
+        <ButtonLink href={calendlyUrl} variant="outline" size="lg">
           {cta.freeSession}
         </ButtonLink>
       </div>
