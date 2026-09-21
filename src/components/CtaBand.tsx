@@ -16,7 +16,7 @@ export function CtaBand({
   quote: string;
   attribution: string;
   body: string;
-  tone?: "ink" | "ink-2" | "pine";
+  tone?: "ink" | "ink-2" | "void";
 }) {
   return (
     <Section tone={tone} rule density="loose" aria-labelledby="cta-heading">
@@ -25,7 +25,7 @@ export function CtaBand({
           <h2 id="cta-heading" className="display-1 mx-auto max-w-[19ch] text-bone">
             {quote}
           </h2>
-          <p className="stamp mt-7 text-bone-3">{attribution}</p>
+          <p className="label mt-7 text-bone-3">{attribution}</p>
         </Reveal>
 
         <Reveal delay={0.08}>

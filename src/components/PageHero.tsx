@@ -22,7 +22,7 @@ export function PageHero({
 }) {
   return (
     <section className={cn("relative overflow-hidden pt-12 pb-16 lg:pt-16 lg:pb-20", className)}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[radial-gradient(110%_70%_at_82%_-10%,rgba(27,71,51,0.42),transparent_62%)]" />
+      <div className="glow-ember pointer-events-none absolute inset-x-0 top-0 h-[38rem]" />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12">
         <div

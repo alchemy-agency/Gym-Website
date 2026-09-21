@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
 import { CtaBand } from "@/components/CtaBand";
-import { Facility } from "@/components/home/Facility";
+import { Floor } from "@/components/home/Floor";
 import { Hero } from "@/components/home/Hero";
 import { PanelBlock } from "@/components/home/PanelBlock";
 import { Training } from "@/components/home/Training";
 import { TwoWays } from "@/components/home/TwoWays";
 import { VisitBand } from "@/components/home/VisitBand";
+import { Marquee } from "@/components/gsap/Marquee";
 import { Process } from "@/components/Process";
 import { trainingSteps } from "@/content/offers";
 
@@ -22,7 +23,15 @@ export default function HomePage() {
     <>
       <Hero />
       <TwoWays />
-      <Facility />
+      <Floor />
+      <Marquee
+        items={[
+          "Bone density",
+          "Muscle mass",
+          "Fat loss",
+          "Cardiovascular health",
+        ]}
+      />
       <Training />
       <PanelBlock />
       <Process

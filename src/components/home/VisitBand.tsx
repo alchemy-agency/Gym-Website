@@ -32,7 +32,7 @@ export function VisitBand() {
 
       <div className="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-3">
         <div>
-          <h3 className="stamp text-bone-3">The address</h3>
+          <h3 className="label text-bone-3">The address</h3>
           <a
             href={contact.mapsHref}
             target="_blank"
@@ -69,7 +69,7 @@ export function VisitBand() {
         </div>
 
         <div>
-          <h3 className="stamp text-bone-3">When</h3>
+          <h3 className="label text-bone-3">When</h3>
           <dl className="mt-4 divide-y divide-line border-t border-line">
             {hours.map((row) => (
               <div
@@ -86,7 +86,7 @@ export function VisitBand() {
         </div>
 
         <div className="sm:col-span-2 lg:col-span-1">
-          <h3 className="stamp text-bone-3">Reach Sam</h3>
+          <h3 className="label text-bone-3">Reach Sam</h3>
           <ContactLinks layout="stack" className="mt-4" itemClassName="text-[0.9375rem]" />
           <p className="mt-5 max-w-[36ch] text-sm leading-relaxed text-bone-3">
             Calling is the fastest route. Sam trains most of the day and picks

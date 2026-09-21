@@ -56,7 +56,7 @@ export function Training() {
               My mission is to train my clients until they can work out on
               their own.
             </blockquote>
-            <figcaption className="stamp mt-4 text-bone-3">Sam Axelrode</figcaption>
+            <figcaption className="label mt-4 text-bone-3">Sam Axelrode</figcaption>
           </figure>
 
           <ul className="mt-12 divide-y divide-line border-t border-line">

@@ -58,7 +58,7 @@ export function TwoWays() {
 
             <div className="flex items-center gap-2.5">
               <Dot />
-              <span className="stamp text-bone">{path.kicker}</span>
+              <span className="label text-bone">{path.kicker}</span>
             </div>
 
             <h3 className="display-2 mt-5 text-bone">{path.title}</h3>

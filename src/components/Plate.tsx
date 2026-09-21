@@ -14,14 +14,16 @@ type PlateProps = {
   scrim?: boolean;
   /** `deep` pushes the plate further back so type in front of it can lead. */
   tone?: "default" | "deep";
+  /** Hairline inset edge. Reads as a machined frame rather than a border. */
+  edge?: boolean;
 };
 
 /**
  * Every photograph on the site goes through this component.
  *
- * PHOTO LOCK: the image is desaturated and a pine duotone is blended over it,
- * which is what makes a set of unrelated photographs read as one art-directed
- * shoot and keeps the ember accent as the only real colour on the page.
+ * PHOTO LOCK: warm toned black and white (`photo-warm`), no duotone and no
+ * colour cast. That is what makes a set of unrelated photographs read as one
+ * art directed shoot, and it leaves ember as the only real colour on the page.
  */
 export function Plate({
   photo,
@@ -31,6 +33,7 @@ export function Plate({
   priority = false,
   scrim = false,
   tone = "default",
+  edge = false,
 }: PlateProps) {
   return (
     <div className={cn("relative isolate overflow-hidden bg-ink-3", className)}>
@@ -41,16 +44,23 @@ export function Plate({
         sizes={sizes}
         priority={priority}
         className={cn(
-          "mono-photo object-cover",
-          tone === "deep" && "brightness-[0.72]",
+          "photo-warm object-cover",
+          tone === "deep" && "brightness-[0.78]",
           imgClassName,
         )}
       />
-      <div aria-hidden="true" className="mono-duotone pointer-events-none absolute inset-0" />
+
       {scrim ? (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-transparent"
+        />
+      ) : null}
+
+      {edge ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-line-2/70"
         />
       ) : null}
     </div>

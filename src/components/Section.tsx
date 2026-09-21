@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
-type Tone = "ink" | "ink-2" | "pine";
+type Tone = "ink" | "ink-2" | "void";
 
 const TONES: Record<Tone, string> = {
   ink: "bg-ink",
   "ink-2": "bg-ink-2",
-  pine: "bg-pine",
+  void: "bg-void",
 };
 
 type SectionProps = {

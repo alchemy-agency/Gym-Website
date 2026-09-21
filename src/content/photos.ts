@@ -6,9 +6,10 @@
    the shot that belongs in that slot.
 
    REPLACE THESE before launch with real photographs of Sam's gym and Sam
-   himself. The site applies a monochrome and pine duotone treatment to every
-   image, so replacement photos will sit in the design even if they were shot
-   on a phone, as long as they are reasonably well lit.
+   himself. The site renders every image as warm toned black and white (see
+   the PHOTO LOCK note in globals.css), so replacement photos will sit in the
+   design even if they were shot on a phone, as long as they are reasonably
+   well lit.
 
    Shoot list, in priority order:
      1. hero            - the training floor, wide, lights on, no people or one

@@ -23,7 +23,7 @@ export function MarkerGroups({
         <div
           key={ci}
           className={
-            ci === 1 ? "border-t border-pine-3/45 sm:border-l sm:border-t-0" : ""
+            ci === 1 ? "border-t border-line-2 sm:border-l sm:border-t-0" : ""
           }
         >
           {column.map((group, gi) => (
@@ -31,7 +31,7 @@ export function MarkerGroups({
               key={group.id}
               className={cn(
                 size === "full" ? "px-6 py-5" : "px-6 py-4",
-                gi < column.length - 1 && "border-b border-pine-3/45",
+                gi < column.length - 1 && "border-b border-line-2",
               )}
             >
               <h3

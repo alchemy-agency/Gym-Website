@@ -2,6 +2,7 @@ import { ArrowUpRight, InstagramLogo, MapPin } from "@phosphor-icons/react/dist/
 import Link from "next/link";
 
 import { ContactLinks } from "@/components/ContactLinks";
+import { Logo } from "@/components/Logo";
 import { contact, cta, hours, isInstagramEnabled, nav, site } from "@/content/business";
 
 const trainingLinks = [
@@ -20,12 +21,7 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr] lg:gap-10">
           {/* Identity ------------------------------------------------------- */}
           <div>
-            <div className="flex items-center gap-2.5">
-              <span aria-hidden="true" className="h-2 w-2 bg-ember" />
-              <span className="font-display text-[0.9375rem] font-bold uppercase tracking-[-0.015em] text-bone">
-                Sam&rsquo;s Body Shop
-              </span>
-            </div>
+            <Logo size="md" />
 
             <p className="mt-5 max-w-[34ch] text-sm leading-relaxed text-bone-2">
               A private gym and one-on-one coaching business on Autopark Drive,
@@ -49,7 +45,7 @@ export function Footer() {
 
           {/* Site ----------------------------------------------------------- */}
           <nav aria-label="Footer">
-            <h3 className="stamp text-bone-3">Train</h3>
+            <h3 className="label text-bone-3">Train</h3>
             <ul className="mt-4 space-y-3">
               {trainingLinks.map((item) => (
                 <li key={item.href}>
@@ -66,7 +62,7 @@ export function Footer() {
 
           {/* Hours ---------------------------------------------------------- */}
           <div>
-            <h3 className="stamp text-bone-3">When</h3>
+            <h3 className="label text-bone-3">When</h3>
             <dl className="mt-4 space-y-3">
               {hours.map((row) => (
                 <div key={row.label}>
@@ -79,7 +75,7 @@ export function Footer() {
 
           {/* Contact -------------------------------------------------------- */}
           <div>
-            <h3 className="stamp text-bone-3">Find it</h3>
+            <h3 className="label text-bone-3">Find it</h3>
 
             <a
               href={contact.mapsHref}

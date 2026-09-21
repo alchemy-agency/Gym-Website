@@ -10,6 +10,7 @@ import { cta, nav, site } from "@/content/business";
 import { cn } from "@/lib/cn";
 
 import { buttonClass } from "./Button";
+import { Logo } from "./Logo";
 
 export function Nav() {
   const pathname = usePathname();
@@ -44,17 +45,7 @@ export function Nav() {
         )}
       >
         <div className="mx-auto flex h-full w-full max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-8 lg:px-12">
-          <Link
-            href="/"
-            aria-label={`${site.gymName}, home`}
-            className="flex shrink-0 items-center gap-2.5"
-          >
-            <span aria-hidden="true" className="h-2 w-2 shrink-0 bg-ember" />
-            <span className="font-display text-[0.9375rem] font-bold uppercase leading-none tracking-[-0.015em] text-bone">
-              Sam&rsquo;s Body Shop
-            </span>
-            <span className="stamp hidden text-bone-3 sm:inline">HB</span>
-          </Link>
+          <Logo href="/" title={`${site.gymName}, home`} />
 
           <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
             {nav.map((item) => {
@@ -111,9 +102,7 @@ export function Nav() {
           className="fixed inset-0 z-[70] bg-ink lg:hidden"
         >
           <div className="flex h-[68px] items-center justify-between px-5 sm:px-8">
-            <span className="font-display text-[0.9375rem] font-bold uppercase tracking-[-0.015em]">
-              Sam&rsquo;s Body Shop
-            </span>
+            <Logo size="md" />
             <button
               type="button"
               onClick={() => setMenuOpen(false)}

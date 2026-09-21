@@ -156,7 +156,7 @@ export const gymFeatures = [
     title: "No contract maze",
     body: "No enrolment fee, no annual commitment, no cancellation phone call. Applications are reviewed so the room stays usable.",
     photo: false,
-    tone: "pine",
+    tone: "void",
   },
   {
     id: "hb",

@@ -3,55 +3,68 @@
 /* ===========================================================================
    SAM'S BODY SHOP HB - DESIGN TOKENS
    ---------------------------------------------------------------------------
-   Direction: "Forged" - a monochrome, editorial-sport system built for a
-   private gym. Near-black warm graphite base, bone type, deep pine as the
-   identity block colour, and a single ember accent reserved for moments that
-   need to be found (the free session, focus rings, live state).
+   Direction: "Machine Shop" - warm graphite, bone type, true black and white
+   photography, and a single ember accent. The vocabulary is a precision
+   workshop: machined edges (radius 0), hairlines, tabular numbers, engraved
+   labels.
 
    LOCKED DECISIONS (do not break these when editing):
+
    1. THEME LOCK   - the whole site is dark. No section inverts to a light
-                     theme. Variety comes from tonal shifts inside the dark
-                     range plus the pine colour block.
-   2. COLOUR LOCK  - ember (#e04a17) is the only accent. It is never used as a
-                     large fill, never as a gradient, never twice in one
-                     viewport competing for attention.
+                     theme. Variety comes from tonal steps inside the dark
+                     range (ink -> ink-4 -> void) plus ember at low opacity as
+                     ambient light, never from a second hue.
+   2. HUE LOCK     - the palette is warm neutral. There is no green, no blue
+                     and no second accent. Ember (#e04a17) is the only colour
+                     on the site, and it is used for things that need to be
+                     found: the free session, live state, focus rings, numbers
+                     that carry meaning. It is never a large fill.
    3. SHAPE LOCK   - corner radius is 0 everywhere. Buttons, inputs, cards,
                      images and modals are all square. The only circle on the
                      site is the semantic status dot.
-   4. PHOTO LOCK   - every photograph is rendered monochrome with a pine
-                     duotone so the whole site reads as one art-directed shoot.
-                     That also means the ember accent is the only real colour
-                     on the page.
+   4. PHOTO LOCK   - every photograph is rendered as warm toned black and
+                     white (grayscale + a whisper of sepia). No duotone, no
+                     colour cast. This is what keeps eight unrelated
+                     photographs reading as one art directed shoot and leaves
+                     ember as the only real colour on the page.
+
+   NOTE: an earlier version of this file used a deep pine green as the identity
+   colour and a green duotone on every photograph. Against a near black base
+   with monospace labels that read as a terminal, which is why it was replaced.
+   Do not reintroduce a green cast.
    =========================================================================== */
 
 @theme {
-  /* --- surfaces ---------------------------------------------------------- */
-  --color-ink: #0a0b0a;
-  --color-ink-2: #101210;
-  --color-ink-3: #161a16;
-  --color-ink-4: #1e231d;
+  /* Clear Tailwind's entire default palette. Without this the build ships
+     every default colour (zinc, slate, gray, amber...) as unused CSS
+     variables, and it also means a stray `bg-slate-100` would silently work
+     and break the hue lock. Only the two absolutes are kept. */
+  --color-*: initial;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* --- surfaces (warm neutral, never green) ------------------------------ */
+  --color-ink: #0c0c0b;
+  --color-ink-2: #121211;
+  --color-ink-3: #191917;
+  --color-ink-4: #222220;
+  --color-void: #070706;
 
   /* --- hairlines --------------------------------------------------------- */
-  --color-line: #262b25;
-  --color-line-2: #394035;
+  --color-line: #2a2a27;
+  --color-line-2: #3c3c37;
 
   /* --- type -------------------------------------------------------------- */
-  --color-bone: #eae8e1;
-  --color-bone-2: #a5a79c;
-  --color-bone-3: #83887c;
-
-  /* --- identity: deep pine ----------------------------------------------- */
-  --color-pine: #0f2a1f;
-  --color-pine-2: #1b4733;
-  --color-pine-3: #2f6b4a;
-  --color-pine-4: #4e9c72;
+  --color-bone: #ecebe5;
+  --color-bone-2: #a7a59d;
+  --color-bone-3: #85837b;
 
   /* --- accent: ember (single, locked) ------------------------------------ */
   --color-ember: #e04a17;
-  --color-ember-2: #ff6b3a;
-
-  /* --- signal ------------------------------------------------------------ */
-  --color-bone-dim: #d8d6cd;
+  --color-ember-2: #ff6a38;
+  --color-ember-deep: #61200a;
 }
 
 @theme inline {
@@ -90,7 +103,6 @@
     outline-offset: 2px;
   }
 
-  /* Form controls: keep the browser from painting a light control surface */
   input,
   textarea,
   select,
@@ -124,7 +136,11 @@
     text-wrap: pretty;
   }
 
-  /* iOS: never zoom on focus for form fields */
+  /* A marquee driven by GSAP must not fight the browser's own scrolling. */
+  [data-marquee] {
+    will-change: transform;
+  }
+
   @media (max-width: 640px) {
     input,
     textarea,
@@ -135,8 +151,8 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Display type scale - fluid, uppercase, wide grotesque.
-   Italic descender clearance is handled by leading >= 1.08 + padding-bottom.
+   Display type scale. Uppercase, wide grotesque, machined.
+   Italic descender clearance: leading and padding both reserve room.
    --------------------------------------------------------------------------- */
 @utility display-1 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
@@ -170,37 +186,56 @@
   padding-bottom: 0.05em;
 }
 
-/* Small mono label. Deliberately NOT uppercased and not wide-tracked: the
-   "UPPERCASE TRACKED EYEBROW" above every section heading is the single most
-   recognisable generated-website tell. Uppercase is reserved for headlines
-   and the wordmark, where it is doing real work. */
-@utility stamp {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.05em;
+/* Engraved workshop label. Deliberately SANS and sentence case: a small
+   monospace all-caps label above every heading is the fastest way to make a
+   dark site read as a terminal. */
+@utility label {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
   font-weight: 500;
+  letter-spacing: 0.005em;
 }
 
-@utility rule-t {
-  border-top: 1px solid var(--color-line);
+/* Tabular figures. Reserved for numbers that genuinely carry meaning:
+   counts, prices, phone numbers, step indices. */
+@utility numeral {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 /* ---------------------------------------------------------------------------
-   Photography treatment - monochrome + pine duotone.
-   Every photo on the site goes through <Plate>, which applies these.
+   Photography: warm toned black and white.
+   Applied by <Plate>. Every photo on the site goes through it.
    --------------------------------------------------------------------------- */
-@utility mono-photo {
-  filter: grayscale(1) contrast(1.12) brightness(0.9);
-}
-
-@utility mono-duotone {
-  background-color: var(--color-pine-2);
-  mix-blend-mode: color;
-  opacity: 0.75;
+@utility photo-warm {
+  filter: grayscale(1) contrast(1.08) brightness(0.94) sepia(0.16);
 }
 
 /* ---------------------------------------------------------------------------
-   Reduced motion: collapse everything.
+   Ambient light. Large, very soft, ember or bone tinted. Used as a background
+   wash behind a section, never as a gradient on text or a button.
+   --------------------------------------------------------------------------- */
+@utility glow-ember {
+  background-image: radial-gradient(
+    70% 55% at 78% 0%,
+    color-mix(in oklab, var(--color-ember) 16%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+@utility glow-bone {
+  background-image: radial-gradient(
+    60% 50% at 12% 0%,
+    color-mix(in oklab, var(--color-bone) 7%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Motion pre-flight.
+   Every reveal collapses under reduced motion, and GSAP components check
+   prefers-reduced-motion in JS before they set up a single ScrollTrigger.
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

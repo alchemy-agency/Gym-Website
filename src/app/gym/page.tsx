@@ -1,6 +1,7 @@
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 
+import { Bento } from "@/components/Bento";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqSection } from "@/components/FaqSection";
@@ -12,7 +13,6 @@ import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { contact, cta } from "@/content/business";
 import {
-  facilityList,
   gymFaq,
   gymPath,
   gymSteps,
@@ -59,49 +59,14 @@ export default function GymPage() {
         }
       />
 
-      {/* What is on the floor ---------------------------------------------- */}
-      <Section rule density="default" aria-labelledby="floor-heading">
-        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <Reveal>
-            <h2 id="floor-heading" className="display-2 max-w-[18ch]">
-              Equipped for strength, not for photos.
-            </h2>
-            <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-bone-2">
-              Everything here is chosen so that a serious programme is possible
-              without waiting for a machine or working around someone else&apos;s
-              circuit.
-            </p>
-
-            <Plate
-              photo={photos.detail}
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="mt-10 hidden h-[clamp(200px,26vh,300px)] w-full lg:block"
-            />
-          </Reveal>
-
-          <Reveal delay={0.06}>
-            <dl className="border-t border-line">
-              {facilityList.map((row) => (
-                <div
-                  key={row.group}
-                  className="grid gap-1.5 border-b border-line py-5 sm:grid-cols-[8rem_1fr] sm:gap-6"
-                >
-                  <dt className="text-[0.8125rem] text-bone-3">{row.group}</dt>
-                  <dd className="text-[0.9375rem] leading-relaxed text-bone">
-                    {row.items}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <p className="mt-6 max-w-[52ch] text-xs leading-relaxed text-bone-3">
-              Something specific you need and do not see? Ask Sam before you
-              apply. If it belongs on the floor, he will tell you honestly.
-            </p>
-          </Reveal>
-        </div>
-      </Section>
+      <Bento
+        heading="What membership actually gets you."
+        body="Not a key fob and a row of machines. A written programme, coaching on the floor, and terms short enough to read in one sitting."
+        tone="ink"
+      />
 
       {/* Terms ------------------------------------------------------------- */}
+
       <Section tone="ink-2" rule density="default" aria-labelledby="terms-heading">
         <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
           <Reveal>
@@ -142,7 +107,7 @@ export default function GymPage() {
 
           <Reveal delay={0.06}>
             <div className="border border-line bg-ink p-6 sm:p-8">
-              <h3 className="stamp text-bone-3">The terms at a glance</h3>
+              <h3 className="label text-bone-3">The terms at a glance</h3>
               <dl className="mt-5 divide-y divide-line border-t border-line">
                 {membershipTerms.map((term) => (
                   <div
@@ -196,7 +161,7 @@ export default function GymPage() {
 
           <Reveal from="right" delay={0.06}>
             <div className="border border-line bg-ink-2 p-6 sm:p-8">
-              <span className="stamp text-bone-3">Before you apply</span>
+              <span className="label text-bone-3">Before you apply</span>
               <dl className="mt-5 divide-y divide-line border-t border-line">
                 <div className="flex items-baseline justify-between gap-6 py-4">
                   <dt className="text-[0.8125rem] text-bone-3">Location</dt>

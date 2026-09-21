@@ -96,7 +96,13 @@ export default function FunctionHealthPage() {
       </Section>
 
       {/* What it measures -------------------------------------------------- */}
-      <Section tone="pine" rule density="default" aria-labelledby="measures">
+      <Section
+        tone="void"
+        rule
+        density="default"
+        className="glow-ember"
+        aria-labelledby="measures"
+      >
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <Reveal>
             <h2 id="measures" className="display-2 max-w-[18ch] text-bone">
@@ -123,7 +129,7 @@ export default function FunctionHealthPage() {
               </div>
             </div>
 
-            <p className="mt-10 flex max-w-[46ch] items-start gap-2.5 border-t border-pine-3/45 pt-6 text-sm leading-relaxed text-bone-2">
+            <p className="mt-10 flex max-w-[46ch] items-start gap-2.5 border-t border-line-2 pt-6 text-sm leading-relaxed text-bone-2">
               <ShieldCheck
                 size={15}
                 weight="bold"
@@ -138,7 +144,7 @@ export default function FunctionHealthPage() {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <MarkerGroups size="full" className="border-b border-pine-3/45" />
+            <MarkerGroups size="full" className="border-b border-line-2" />
           </Reveal>
         </div>
       </Section>

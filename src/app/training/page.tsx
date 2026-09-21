@@ -105,22 +105,30 @@ export default function TrainingPage() {
               key={pack.id}
               delay={i * 0.05}
               className={cn(
-                "flex flex-col p-6 sm:p-8",
-                pack.featured ? "bg-pine" : "bg-ink-2",
-                pack.featured && "lg:-my-px lg:py-10",
+                "relative flex flex-col p-6 sm:p-8",
+                pack.featured
+                  ? "glow-ember bg-ink-4 lg:-my-px lg:py-10"
+                  : "bg-ink-2",
               )}
             >
+              {pack.featured ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px bg-ember"
+                />
+              ) : null}
+
               <div className="flex items-start justify-between gap-4">
                 <span
                   className={cn(
-                    "stamp",
+                    "label",
                     pack.featured ? "text-ember-2" : "text-bone-3",
                   )}
                 >
                   {pack.positioning}
                 </span>
                 {pack.featured ? (
-                  <span className="stamp border border-ember px-2 py-1 text-ember-2">
+                  <span className="label border border-ember/60 px-2 py-1 text-ember-2">
                     Includes the panel
                   </span>
                 ) : null}
@@ -128,12 +136,7 @@ export default function TrainingPage() {
 
               <h3 className="display-3 mt-6 text-bone">{pack.name}</h3>
 
-              <p
-                className={cn(
-                  "mt-4 max-w-[42ch] text-[0.9375rem] leading-relaxed",
-                  pack.featured ? "text-bone-dim" : "text-bone-2",
-                )}
-              >
+              <p className="mt-4 max-w-[42ch] text-[0.9375rem] leading-relaxed text-bone-2">
                 {pack.detail}
               </p>
 
@@ -141,37 +144,36 @@ export default function TrainingPage() {
                 className={cn(
                   "mt-8 divide-y border-t",
                   pack.featured
-                    ? "divide-pine-3/45 border-pine-3/45"
+                    ? "divide-line-2 border-line-2"
                     : "divide-line border-line",
                 )}
               >
-                {pack.includes.map((item) => (
-                  <li key={item} className="flex items-start gap-3 py-3.5">
-                    <Check
-                      size={14}
-                      weight="bold"
-                      aria-hidden="true"
-                      className={cn(
-                        "mt-1 shrink-0",
-                        pack.includesPanel && item.includes("Function Health")
-                          ? "text-ember-2"
-                          : "text-bone-3",
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "text-[0.875rem] leading-relaxed",
-                        pack.includesPanel && item.includes("Function Health")
-                          ? "text-bone"
-                          : pack.featured
-                            ? "text-bone-dim"
-                            : "text-bone-2",
-                      )}
-                    >
-                      {item}
-                    </span>
-                  </li>
-                ))}
+                {pack.includes.map((item) => {
+                  const isPanel = Boolean(
+                    pack.includesPanel && item.includes("Function Health"),
+                  );
+                  return (
+                    <li key={item} className="flex items-start gap-3 py-3.5">
+                      <Check
+                        size={14}
+                        weight="bold"
+                        aria-hidden="true"
+                        className={cn(
+                          "mt-1 shrink-0",
+                          isPanel ? "text-ember-2" : "text-bone-3",
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "text-[0.875rem] leading-relaxed",
+                          isPanel ? "text-bone" : "text-bone-2",
+                        )}
+                      >
+                        {item}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
 
               <div className="mt-auto pt-8">
@@ -260,7 +262,7 @@ export default function TrainingPage() {
                   I train out of the gym I own. No need to pay for a monthly
                   membership, just the training.
                 </blockquote>
-                <p className="stamp mt-4 text-bone-3">Sam Axelrode</p>
+                <p className="label mt-4 text-bone-3">Sam Axelrode</p>
               </div>
 
               <dl className="mt-8 divide-y divide-line border-y border-line">

@@ -74,7 +74,7 @@ export default async function ThankYouPage({
       <Section density="loose" className="pt-16 lg:pt-20">
         <Reveal>
           <div className="max-w-[52rem]">
-            <span className="stamp inline-flex items-center gap-2 border border-ember px-2.5 py-1.5 text-ember-2">
+            <span className="label inline-flex items-center gap-2 border border-ember px-2.5 py-1.5 text-ember-2">
               <Check size={12} weight="bold" aria-hidden="true" />
               Received
             </span>
@@ -103,7 +103,7 @@ export default async function ThankYouPage({
               delay={i * 0.05}
               className="flex min-h-[200px] flex-col bg-ink-2 p-6 sm:p-8"
             >
-              <span aria-hidden="true" className="stamp text-ember-2">
+              <span aria-hidden="true" className="label text-ember-2">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h2 className="display-3 mt-6 max-w-[18ch] text-bone">

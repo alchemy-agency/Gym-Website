@@ -109,7 +109,7 @@ export default function PrivacyPage() {
             ))}
 
             <div className="mt-10">
-              <h3 className="stamp text-bone-3">Photography</h3>
+              <h3 className="label text-bone-3">Photography</h3>
               <p className="mt-4 max-w-[68ch] text-[0.9375rem] leading-relaxed text-bone-2">
                 The photographs on this site are placeholders, licensed for
                 commercial use under the Unsplash License. They are being

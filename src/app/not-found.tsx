@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <Section density="loose" className="pt-20 lg:pt-24">
-      <p className="stamp text-bone-3">404</p>
+      <p className="label text-bone-3">404</p>
       <h1 className="display-1 mt-6 max-w-[16ch] text-bone">
         That page is not here.
       </h1>

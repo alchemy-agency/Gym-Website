@@ -210,21 +210,94 @@ change. If you host them locally instead of on Unsplash, drop them in
 All tokens live in `src/app/globals.css`. Four decisions are locked in, and
 breaking them is what makes the site look generic again:
 
-1. **Theme lock** — the whole site is dark. Variety comes from tonal shifts
-   inside the dark range plus the one deep-pine colour block, never from a
-   section inverting to light.
-2. **Colour lock** — ember (`#e04a17`) is the only accent, and it is never used
-   as a large fill. Primary buttons are bone on ink.
-3. **Shape lock** — corner radius is `0` everywhere. The only circle on the site
-   is the semantic status dot.
-4. **Photo lock** — every image goes through `<Plate>`, which desaturates it and
-   blends a pine duotone over the top. That is what makes eight unrelated
-   photographs read as one art-directed shoot, and it is why ember is the only
-   real colour on the page.
+1. **Theme lock** — the whole site is dark. Variety comes from tonal steps
+   inside the dark range (`ink` → `ink-4` → `void`) plus ember ambient light,
+   never from a section inverting to light.
+2. **Hue lock** — the palette is warm neutral. There is no green, no blue and no
+   second accent. Ember (`#e04a17`) is the only colour, reserved for things that
+   need to be found: the free session, live state, focus rings, meaningful
+   numbers. It is never a large fill.
+3. **Shape lock** — corner radius is `0` everywhere. The only circle in the
+   layout is the semantic status dot.
+4. **Photo lock** — every image goes through `<Plate>`, which renders it as warm
+   toned black and white (`grayscale` + a whisper of `sepia`). That is what
+   makes eight unrelated photographs read as one art-directed shoot, and it
+   leaves ember as the only real colour on the page.
+
+`@theme` starts with `--color-*: initial`, which deletes Tailwind's default
+palette. That keeps roughly 10 KB of unused colour variables out of the build
+and, more importantly, means a stray `bg-slate-100` fails loudly instead of
+silently breaking the hue lock.
 
 Type: **Archivo** (display, expanded width axis) + **Geist** (body) +
-**Geist Mono** (small labels). `display-1/2/3` and `stamp` are custom utilities
-in `globals.css`.
+**Geist Mono** (tabular figures only). `display-1/2/3`, `label` and `numeral`
+are custom utilities in `globals.css`.
+
+One deliberate reversal worth recording: an earlier version used a deep pine
+green as the identity colour with a green duotone over every photograph. Against
+a near-black base with monospace labels, that read as a terminal. Do not
+reintroduce a green cast.
+
+---
+
+## Animation
+
+Two engines, kept apart on purpose. The rule is that **GSAP and Motion must
+never share a component tree** — they fight over the same frames.
+
+**Motion** (`motion/react`) handles state and scroll reveals:
+`Reveal`, `ParallaxPlate`, `Magnetic`, `Accordion`, `PanelExplorer`, `Template`.
+
+**GSAP** (`gsap/ScrollTrigger`) handles scrolltelling. Each one is an isolated
+client leaf under `src/components/gsap/`:
+
+| Component | What it does | Why it is motivated |
+| --- | --- | --- |
+| `HeadlineReveal` | Hero words rise out of per-word clipping masks | Hierarchy: the value prop assembles itself |
+| `Marquee` | One kinetic band, accelerated by scroll velocity | Storytelling: Sam's four training goals as connective tissue |
+| `FloorPan` | Pinned horizontal pan of the equipment groups | Reveal: six parallel things read at full size instead of crushed into a table |
+| `Counter` | Scrubbed count to 160+ | Makes the size of the panel offer land |
+
+There is exactly **one marquee** on the site. A second would make both feel like
+filler.
+
+### Constraints these components respect
+
+- `start: "top top"` + `pin: true` + `end: () => "+=" + distance` on the pan,
+  per the canonical pinned-pan skeleton.
+- `gsap.matchMedia()` gates the pan to `min-width: 1024px` **and**
+  `prefers-reduced-motion: no-preference`. Below that, no ScrollTrigger is
+  created at all and the same markup reads as a stacked list, so the mobile
+  fallback needs no separate component.
+- No `window.addEventListener("scroll")` anywhere.
+- `template.tsx` animates **opacity only**. A `transform` on that wrapper would
+  make it the containing block for `position: fixed`, which silently breaks
+  ScrollTrigger pinning. Do not add a `y` or `scale` to it.
+- Hero copy and CTAs are static server markup. The headline is real text with
+  real spaces, split into spans, and it is **not** hidden in CSS — GSAP hides it
+  inside a layout effect so no-JS visitors still see a full headline and nothing
+  delays a pre-hydration paint.
+- Blur reveals are opt-out (`blur={false}`) on long lists, because animating
+  `filter` on 20 rows at once is a real cost.
+
+---
+
+## Logo
+
+The mark is a solid square with the top-right corner chamfered at 45°, drawn on
+a 32×32 grid (`M5 5H19L27 13V27H5V5Z`). It encodes both ideas in one shape: a
+billet of stock material, and a loaded plate seen square on. The chamfer uses the
+same vocabulary as the radius-0 layout system.
+
+- `src/components/Logo.tsx` — `<LogoMark>` (inherits `currentColor`) and
+  `<Logo>` (mark + wordmark lockup)
+- `public/brand/mark.svg`, `mark-bone.svg`, `mark-ink.svg` — standalone marks
+- `src/app/icon.svg` — favicon
+
+The wordmark is **live text**, not outlined paths. That is the right call for the
+web: crisp at any density, selectable, and readable to assistive technology. For
+print or merchandise, export a lockup with the letterforms outlined from
+**Archivo Expanded Bold at -2% tracking**.
 
 ---
 
@@ -234,6 +307,7 @@ in `globals.css`.
 src/
   app/
     layout.tsx              fonts, metadata, JSON-LD, nav, footer, grain
+    template.tsx            route transition (opacity only, see Animation)
     globals.css             all design tokens + custom utilities
     page.tsx                home
     gym/page.tsx            private gym + application form
@@ -247,10 +321,11 @@ src/
     sitemap.ts robots.ts opengraph-image.tsx icon.svg
   components/
     Nav, Footer, Button, Section, Plate, ParallaxPlate, Reveal,
-    Accordion, Process, FaqSection, CtaBand, PageHero, Bits,
-    ContactLinks, GoogleTag, Grain
+    Accordion, Process, FaqSection, CtaBand, PageHero, Bits, Logo,
+    ContactLinks, GoogleTag, Grain, MarkerGroups, PanelExplorer, Magnetic, Bento
     forms/LeadForm.tsx      both forms, field config in src/lib/lead.ts
-    home/                   the eight home page sections
+    gsap/                   HeadlineReveal, Marquee, FloorPan, Counter
+    home/                   the home page sections
   content/                  ALL copy and business facts live here
     business.ts offers.ts panel.ts photos.ts
   lib/

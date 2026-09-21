@@ -17,9 +17,10 @@ type ParallaxPlateProps = {
 };
 
 /**
- * Deep parallax plate. Communicates depth: the photograph is a window, the
- * content in front of it is what you are reading. Only used once on the home
- * page, on the facility shot, where the extra depth is worth the layer.
+ * Deep parallax plate. Communicates depth: the photograph is a window and the
+ * content in front of it is what you are reading.
+ *
+ * Motion only, no GSAP. The two libraries must not share a component tree.
  */
 export function ParallaxPlate({
   photo,
@@ -36,31 +37,27 @@ export function ParallaxPlate({
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [`-${travel}%`, `${travel}%`],
-  );
+  const y = useTransform(scrollYProgress, [0, 1], [`-${travel}%`, `${travel}%`]);
 
   return (
-    <div ref={ref} className={cn("relative isolate overflow-hidden bg-ink-3", className)}>
-      <motion.div
-        style={reduce ? undefined : { y }}
-        className="absolute inset-[-12%]"
-      >
+    <div
+      ref={ref}
+      className={cn("relative isolate overflow-hidden bg-ink-3", className)}
+    >
+      <motion.div style={reduce ? undefined : { y }} className="absolute inset-[-12%]">
         <Image
           src={photo.src}
           alt={photo.alt}
           fill
           sizes={sizes}
           priority={priority}
-          className="mono-photo object-cover"
+          className="photo-warm object-cover"
         />
       </motion.div>
-      <div aria-hidden="true" className="mono-duotone pointer-events-none absolute inset-0" />
+
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-ink/40"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-ink/45"
       />
     </div>
   );
