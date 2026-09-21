@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   SAM'S BODY SHOP HB - DESIGN TOKENS
+   ---------------------------------------------------------------------------
+   Direction: "Forged" - a monochrome, editorial-sport system built for a
+   private gym. Near-black warm graphite base, bone type, deep pine as the
+   identity block colour, and a single ember accent reserved for moments that
+   need to be found (the free session, focus rings, live state).
+
+   LOCKED DECISIONS (do not break these when editing):
+   1. THEME LOCK   - the whole site is dark. No section inverts to a light
+                     theme. Variety comes from tonal shifts inside the dark
+                     range plus the pine colour block.
+   2. COLOUR LOCK  - ember (#e04a17) is the only accent. It is never used as a
+                     large fill, never as a gradient, never twice in one
+                     viewport competing for attention.
+   3. SHAPE LOCK   - corner radius is 0 everywhere. Buttons, inputs, cards,
+                     images and modals are all square. The only circle on the
+                     site is the semantic status dot.
+   4. PHOTO LOCK   - every photograph is rendered monochrome with a pine
+                     duotone so the whole site reads as one art-directed shoot.
+                     That also means the ember accent is the only real colour
+                     on the page.
+   =========================================================================== */
+
+@theme {
+  /* --- surfaces ---------------------------------------------------------- */
+  --color-ink: #0a0b0a;
+  --color-ink-2: #101210;
+  --color-ink-3: #161a16;
+  --color-ink-4: #1e231d;
+
+  /* --- hairlines --------------------------------------------------------- */
+  --color-line: #262b25;
+  --color-line-2: #394035;
+
+  /* --- type -------------------------------------------------------------- */
+  --color-bone: #eae8e1;
+  --color-bone-2: #a5a79c;
+  --color-bone-3: #83887c;
+
+  /* --- identity: deep pine ----------------------------------------------- */
+  --color-pine: #0f2a1f;
+  --color-pine-2: #1b4733;
+  --color-pine-3: #2f6b4a;
+  --color-pine-4: #4e9c72;
+
+  /* --- accent: ember (single, locked) ------------------------------------ */
+  --color-ember: #e04a17;
+  --color-ember-2: #ff6b3a;
+
+  /* --- signal ------------------------------------------------------------ */
+  --color-bone-dim: #d8d6cd;
+}
+
+@theme inline {
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-ember);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember-2);
+    outline-offset: 2px;
+  }
+
+  /* Form controls: keep the browser from painting a light control surface */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-bone-3);
+    opacity: 1;
+  }
+
+  input[type="checkbox"] {
+    accent-color: var(--color-ember);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 0.94;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* iOS: never zoom on focus for form fields */
+  @media (max-width: 640px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Display type scale - fluid, uppercase, wide grotesque.
+   Italic descender clearance is handled by leading >= 1.08 + padding-bottom.
+   --------------------------------------------------------------------------- */
+@utility display-1 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-stretch: 108%;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  font-size: clamp(2.6rem, 7.4vw, 6.25rem);
+  padding-bottom: 0.06em;
+}
+
+@utility display-2 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-stretch: 104%;
+  text-transform: uppercase;
+  letter-spacing: -0.028em;
+  line-height: 0.94;
+  font-size: clamp(2.05rem, 5.1vw, 3.9rem);
+  padding-bottom: 0.06em;
+}
+
+@utility display-3 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  font-size: clamp(1.4rem, 2.6vw, 2.05rem);
+  padding-bottom: 0.05em;
+}
+
+/* Small mono label. Deliberately NOT uppercased and not wide-tracked: the
+   "UPPERCASE TRACKED EYEBROW" above every section heading is the single most
+   recognisable generated-website tell. Uppercase is reserved for headlines
+   and the wordmark, where it is doing real work. */
+@utility stamp {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+@utility rule-t {
+  border-top: 1px solid var(--color-line);
+}
+
+/* ---------------------------------------------------------------------------
+   Photography treatment - monochrome + pine duotone.
+   Every photo on the site goes through <Plate>, which applies these.
+   --------------------------------------------------------------------------- */
+@utility mono-photo {
+  filter: grayscale(1) contrast(1.12) brightness(0.9);
+}
+
+@utility mono-duotone {
+  background-color: var(--color-pine-2);
+  mix-blend-mode: color;
+  opacity: 0.75;
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion: collapse everything.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

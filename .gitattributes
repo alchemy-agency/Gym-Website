@@ -1,0 +1,16 @@
+# Normalise line endings so the repo stores LF and Windows checkouts do not
+# churn every file. Vercel builds on Linux, so LF is the source of truth.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.woff binary
+*.woff2 binary
+*.ico binary
+
+package-lock.json -diff linguist-generated
+.agents/** linguist-vendored
