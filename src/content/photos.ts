@@ -29,6 +29,17 @@ export type Photo = {
 };
 
 export const photos = {
+  /** Sam's own photograph. Landscape, 1.33 aspect.
+   *
+   *  The hero image. A wide shot of the actual training floor. Shot on an
+   *  iPhone as HEIC and converted, so it is a real photo of the room rather
+   *  than a stock stand-in. */
+  gymFloor: {
+    src: "/images/gym-floor.jpg",
+    alt: "The training floor, with machines and free weights either side of a turf lane.",
+    credit: "Sam's Body Shop",
+  },
+
   /** Sam's own photograph. Portrait, 0.80 aspect.
    *
    *  RETOUCHED: the file Sam uploaded to his own site is a screenshot of a Wix
