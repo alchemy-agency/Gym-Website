@@ -234,6 +234,27 @@
 }
 
 /* ---------------------------------------------------------------------------
+   THE MAHIOLE
+   A Hawaiian feather helmet, used as a background element and never as a logo.
+   Applied as a CSS mask rather than a plain image so it takes the colour of
+   whatever it sits in and can be tinted to bone or ember.
+
+   It never carries information, so it stays at 4-6% opacity and never sits
+   under body copy. Anything above about 10% starts competing with the text.
+   --------------------------------------------------------------------------- */
+@utility mahiole {
+  background-color: var(--color-bone);
+  -webkit-mask-image: url("/brand/mahiole.png");
+  mask-image: url("/brand/mahiole.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* ---------------------------------------------------------------------------
    Ambient light. Large, very soft, ember or bone tinted. Used as a background
    wash behind a section, never as a gradient on text or a button.
    --------------------------------------------------------------------------- */

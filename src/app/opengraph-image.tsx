@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-import { MARK_PATH } from "@/components/brand/markPath";
-
 export const alt =
   "Sam's Body Shop HB. Private gym and personal training in Huntington Beach.";
 export const size = { width: 1200, height: 630 };
@@ -29,13 +27,6 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          {/* The supplied mark, drawn at its own coordinates. */}
-          <svg width="30" height="34" viewBox="369.73 312.37 490.02 554.43">
-            <path
-              d={MARK_PATH}
-              fill="#ff610f"
-            />
-          </svg>
           <div
             style={{
               color: "#ecebe5",
@@ -45,7 +36,7 @@ export default function OpengraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Sam&apos;s Body Shop
+            Sam&apos;s Ultimate Body Shop
           </div>
           <div style={{ color: "#85837b", fontSize: 22 }}>HB</div>
         </div>
