@@ -29,7 +29,7 @@ export const trainingPath = {
   kicker: "One on one",
   title: "Training with Sam",
   summary:
-    "Sam coaches you himself, in his own gym. The first session is free, and his stated goal is to get you to the point where you do not need him.",
+    "Sam coaches you himself, in his own gym. The first session is free, and his goal is to get you to the point where you can train on your own.",
   facts: [
     { label: "First session", value: "Free, no card required" },
     { label: "Coaching", value: "One on one with Sam" },
@@ -104,12 +104,12 @@ export const trainingFocus = [
   {
     id: "bone",
     title: "Bone density",
-    body: "Loaded, progressive strength work. The kind that gives the skeleton a reason to stay dense as you age.",
+    body: "Loaded, progressive strength work. The kind that keeps the skeleton under enough tension to matter as you get older.",
   },
   {
     id: "muscle",
     title: "Muscle mass",
-    body: "Built with compound lifts and enough volume to actually hold onto, not a pump you lose by Thursday.",
+    body: "Compound lifts and enough weekly volume to hold onto, rather than a pump that is gone by the weekend.",
   },
   {
     id: "fat",
@@ -217,17 +217,36 @@ export const trainingSteps = [
 ] as const;
 
 /* ---------------------------------------------------------------------------
-   WHAT IS ACTUALLY ON THE FLOOR
-   VERIFY: confirm this list against the real equipment before launch. Nothing
-   here should be a guess.
+   WHAT THE GYM IS ACTUALLY LIKE
+   ---------------------------------------------------------------------------
+   Deliberately NOT an equipment list. An earlier version of this file carried
+   one and every item in it was invented, which is worse than saying nothing:
+   somebody could join on the strength of it. These four statements are all
+   things that are either stated publicly by Sam or structurally true of a
+   members-only room, and none of them can be wrong about a machine that is not
+   there.
    --------------------------------------------------------------------------- */
-export const facilityList = [
-  { group: "Strength", items: "Power racks, platforms, barbells, bumper plates" },
-  { group: "Free weights", items: "Dumbbells, kettlebells, benches, EZ bars" },
-  { group: "Machines", items: "Cable station, pulldown, leg press, hamstring curl" },
-  { group: "Conditioning", items: "Rower, assault bike, treadmill, sled, turf lane" },
-  { group: "Accessories", items: "Bands, chains, chalk, belts, foam rollers" },
-  { group: "Facilities", items: "Changing area, filtered water, parking at the door" },
+export const gymReality = [
+  {
+    id: "private",
+    title: "Not open to the public",
+    body: "Members only. No day passes, no drop-ins, no queue for anything.",
+  },
+  {
+    id: "capped",
+    title: "Deliberately capped",
+    body: "Sam adds members slowly so the room stays usable at the hours people actually train.",
+  },
+  {
+    id: "coached",
+    title: "Coached, not just key-fobbed",
+    body: "Sam is in the building. Form checks are free and you do not book them.",
+  },
+  {
+    id: "terms",
+    title: "No contract to escape",
+    body: "No enrolment fee, no annual commitment, no retention call. Cancel by telling Sam.",
+  },
 ] as const;
 
 /* ---------------------------------------------------------------------------

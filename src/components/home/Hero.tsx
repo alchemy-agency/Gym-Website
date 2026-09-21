@@ -57,7 +57,7 @@ export function Hero() {
           {/* Plate --------------------------------------------------------- */}
           <div className="relative">
             <Plate
-              photo={photos.hero}
+              photo={photos.runner}
               priority
               edge
               sizes="(min-width: 1024px) 46vw, 100vw"

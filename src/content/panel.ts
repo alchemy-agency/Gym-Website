@@ -20,7 +20,7 @@ export const panel = {
   testCount: 160,
   valueLabel: "$365 a year",
   summary:
-    "A diagnostic blood panel that measures over 160 markers instead of the handful you get at a routine physical. Strength work moves almost all of them. This is how you find out which ones are moving for you.",
+    "A diagnostic blood panel that measures over 160 markers, rather than the handful you get at a routine physical. It gives you a set of numbers to train against, and a way to see which of them have moved six months later.",
 } as const;
 
 /** Representative groups. Not an exhaustive test list. */
@@ -85,15 +85,15 @@ export const panelSteps = [
   },
 ] as const;
 
-/** Why it belongs in a gym, stated plainly. */
+/** Why it belongs in a gym, stated plainly and without medical overreach. */
 export const panelReasons = [
   {
-    title: "A baseline beats a guess",
-    body: "Most people start training without knowing their starting numbers. Six months later they cannot tell what changed.",
+    title: "Know your starting numbers",
+    body: "Most people start training without knowing their starting numbers, so six months later they have nothing to compare against and end up judging the whole thing on how they look.",
   },
   {
-    title: "It covers what training moves",
-    body: "Lipids, insulin sensitivity, hormones, inflammation, liver and kidney markers. Resistance training and conditioning are among the few things that shift all of them.",
+    title: "It covers things training affects",
+    body: "Lipids, insulin sensitivity, hormones, inflammation, liver and kidney markers. Regular training is one of the few things that tends to move several of these, which makes it worth measuring.",
   },
   {
     title: "It gives the programme a target",

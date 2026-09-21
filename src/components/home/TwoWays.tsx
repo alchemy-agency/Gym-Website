@@ -4,20 +4,30 @@ import Link from "next/link";
 import { Dot } from "@/components/Bits";
 import { Plate } from "@/components/Plate";
 import { gymPath, trainingPath } from "@/content/offers";
-import { photos, type Photo } from "@/content/photos";
+import type { Photo } from "@/content/photos";
+import { photos } from "@/content/photos";
+import { cn } from "@/lib/cn";
 
 type Path = typeof gymPath | typeof trainingPath;
 
-const PANELS: { path: Path; photo: Photo; cta: string; href: string }[] = [
+const PANELS: {
+  path: Path;
+  photo?: Photo;
+  cta: string;
+  href: string;
+}[] = [
   {
     path: gymPath,
-    photo: photos.gymFloor,
+    photo: photos.exterior,
     cta: "How membership works",
     href: "/gym#apply",
   },
   {
     path: trainingPath,
-    photo: photos.coaching,
+    /* No photograph here on purpose. One photo panel against one solid one
+       gives the pair an asymmetry it did not have when both were images, and
+       it stops the section from burning two of the site's handful of real
+       photographs to say the same thing twice. */
     cta: "How training works",
     href: "/training#book",
   },
@@ -27,6 +37,10 @@ const PANELS: { path: Path; photo: Photo; cta: string; href: string }[] = [
  * THE TWO WAYS IN - full-bleed split panel.
  * This section carries the whole dual-business model, so it is the only place
  * on the site where two equal columns are the right answer.
+ *
+ * The scrim is deliberately shallow. An earlier version ran `via-ink/72` down
+ * the middle of each panel, which swallowed the photograph and made it read as
+ * a thin strip that had been cropped off rather than as a background.
  */
 export function TwoWays() {
   return (
@@ -43,18 +57,32 @@ export function TwoWays() {
         {PANELS.map(({ path, photo, cta, href }) => (
           <div
             key={path.href}
-            className="group relative isolate flex min-h-[540px] flex-col justify-end px-5 py-10 sm:px-8 sm:py-12 lg:min-h-[660px] lg:px-12 lg:py-14"
+            className={cn(
+              "group relative isolate flex min-h-[460px] flex-col justify-end px-5 py-10 sm:px-8 sm:py-12 lg:min-h-[560px] lg:px-12 lg:py-14",
+              !photo && "glow-ember bg-void",
+            )}
           >
-            <Plate
-              photo={photo}
-              tone="deep"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="absolute inset-0 -z-10 h-full w-full"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/72 to-ink/25"
-            />
+            {photo ? (
+              <>
+                {/* Wrapper carries the absolute positioning. Do NOT pass
+                    `absolute inset-0` to <Plate> itself: Plate sets `relative`
+                    for the fill image, and both are Tailwind `position`
+                    utilities, so which one wins depends on their order in the
+                    generated stylesheet rather than the order you write them.
+                    That silently collapsed this photo into a 50px strip. */}
+                <div className="absolute inset-0 -z-10">
+                  <Plate
+                    photo={photo}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="h-full w-full"
+                  />
+                </div>
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/62 to-ink/10"
+                />
+              </>
+            ) : null}
 
             <div className="flex items-center gap-2.5">
               <Dot />

@@ -49,7 +49,7 @@ export default function TrainingPage() {
         }
         aside={
           <Plate
-            photo={photos.coaching}
+            photo={photos.runner}
             priority
             sizes="(min-width: 1024px) 42vw, 100vw"
             className="h-[clamp(280px,42vh,520px)] w-full"

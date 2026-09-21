@@ -68,7 +68,7 @@ export default function FunctionHealthPage() {
       <Section rule density="default" aria-labelledby="why-heading">
         <Reveal>
           <h2 id="why-heading" className="display-2 max-w-[22ch]">
-            A baseline beats a guess.
+            Know your starting numbers.
           </h2>
           <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
             Most people start training without knowing their starting numbers.

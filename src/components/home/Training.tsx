@@ -1,63 +1,57 @@
 import { Quotes } from "@phosphor-icons/react/dist/ssr";
 
-import { Plate } from "@/components/Plate";
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { trainingFocus } from "@/content/offers";
-import { photos } from "@/content/photos";
 
 /**
  * TRAINING WITH SAM
- * Sticky portrait on the left, the four things he actually trains for on the
- * right. This section also carries his mission, which is the most
- * differentiating sentence he has: he trains people until they do not need him.
+ *
+ * Text forward on purpose. An earlier version had a sticky stock photograph of
+ * a stranger in this column, captioned as Sam. That is the worst possible thing
+ * to put on a personal trainer's website: it is a lie about a named real
+ * person, and it is trivially checkable by anyone who has met him.
+ *
+ * The column now carries his actual words instead. When there is a real
+ * photograph of Sam to use, put it here: it is the highest value image slot on
+ * the site.
  */
 export function Training() {
   return (
-    <Section
-      tone="ink-2"
-      rule
-      density="default"
-      aria-labelledby="training-heading"
-    >
-      <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        {/* Sticky plate --------------------------------------------------- */}
+    <Section tone="ink-2" rule density="default" aria-labelledby="training-heading">
+      <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+        {/* His words, not a picture of somebody else. --------------------- */}
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <Plate
-            photo={photos.portraitSam}
-            sizes="(min-width: 1024px) 36vw, 100vw"
-            className="h-[clamp(340px,48vh,600px)] w-full"
-          />
-          <p className="mt-4 text-xs leading-relaxed text-bone-3">
-            Sam Axelrode. ACE certified, and the person who owns the building
-            you are training in.
-          </p>
+          <Reveal>
+            <div className="border-l-2 border-ember pl-6 lg:pl-8">
+              <Quotes
+                size={20}
+                weight="fill"
+                aria-hidden="true"
+                className="mb-4 text-ember"
+              />
+              <blockquote className="font-display text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.025em] text-bone sm:text-2xl">
+                My mission is to train my clients until they can work out on
+                their own.
+              </blockquote>
+              <p className="label mt-5 text-bone-3">Sam Axelrode</p>
+            </div>
+          </Reveal>
         </div>
 
         {/* Copy ----------------------------------------------------------- */}
         <div>
-          <h2 id="training-heading" className="display-2 max-w-[20ch]">
-            He is training you to not need him.
-          </h2>
+          <Reveal>
+            <h2 id="training-heading" className="display-2 max-w-[20ch]">
+              He is training you until you do not need him.
+            </h2>
 
-          <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
-            Most trainers sell you a dependency. Sam&rsquo;s stated mission is
-            the opposite, and it changes what a session with him looks like.
-          </p>
-
-          <figure className="mt-10 border-l-2 border-ember pl-6">
-            <Quotes
-              size={18}
-              weight="fill"
-              aria-hidden="true"
-              className="mb-3 text-ember"
-            />
-            <blockquote className="font-display text-xl font-semibold leading-[1.25] tracking-[-0.02em] text-bone sm:text-2xl">
-              My mission is to train my clients until they can work out on
-              their own.
-            </blockquote>
-            <figcaption className="label mt-4 text-bone-3">Sam Axelrode</figcaption>
-          </figure>
+            <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
+              Plenty of people stay with a trainer for years and never learn to
+              programme their own week. Sam says out loud that he wants the
+              opposite, and it changes what a session with him looks like.
+            </p>
+          </Reveal>
 
           <ul className="mt-12 divide-y divide-line border-t border-line">
             {trainingFocus.map((focus, i) => (
@@ -77,22 +71,24 @@ export function Training() {
             ))}
           </ul>
 
-          <p className="mt-8 max-w-[56ch] text-[0.9375rem] leading-relaxed text-bone-2">
-            Training happens in the gym he owns, which is why there is no
-            membership fee on top of the sessions. You pay for coaching and you
-            get the room for free.
-          </p>
+          <Reveal delay={0.08}>
+            <p className="mt-8 max-w-[56ch] text-[0.9375rem] leading-relaxed text-bone-2">
+              Training happens in the gym he owns, which is why there is no
+              membership fee on top of the sessions. You pay for the coaching
+              and the room comes with it.
+            </p>
 
-          <p className="mt-6 text-sm text-bone-3">
-            The way in is simple:{" "}
-            <a
-              href="/training#book"
-              className="text-bone underline decoration-ember decoration-2 underline-offset-4 transition-colors hover:text-ember-2"
-            >
-              book a free session
-            </a>
-            .
-          </p>
+            <p className="mt-6 text-sm text-bone-3">
+              The way in is simple:{" "}
+              <a
+                href="/training#book"
+                className="text-bone underline decoration-ember decoration-2 underline-offset-4 transition-colors hover:text-ember-2"
+              >
+                book a free session
+              </a>
+              .
+            </p>
+          </Reveal>
         </div>
       </div>
     </Section>

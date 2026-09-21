@@ -1,7 +1,6 @@
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 
-import { Bento } from "@/components/Bento";
 import { ButtonLink } from "@/components/Button";
 import { CtaBand } from "@/components/CtaBand";
 import { FaqSection } from "@/components/FaqSection";
@@ -15,6 +14,7 @@ import { contact, cta } from "@/content/business";
 import {
   gymFaq,
   gymPath,
+  gymReality,
   gymSteps,
   membershipTerms,
 } from "@/content/offers";
@@ -34,9 +34,8 @@ export default function GymPage() {
         title="The private gym."
         body={
           <p>
-            A capped membership on Autopark Drive, Huntington Beach. The floor
-            is equipped properly and it is never busy, because Sam adds members
-            slowly on purpose.
+            A capped membership on Autopark Drive, Huntington Beach. It is never
+            busy, because Sam adds members slowly on purpose.
           </p>
         }
         actions={
@@ -51,7 +50,7 @@ export default function GymPage() {
         }
         aside={
           <Plate
-            photo={photos.gymFloor}
+            photo={photos.exterior}
             priority
             sizes="(min-width: 1024px) 42vw, 100vw"
             className="h-[clamp(280px,42vh,520px)] w-full"
@@ -59,11 +58,36 @@ export default function GymPage() {
         }
       />
 
-      <Bento
-        heading="What membership actually gets you."
-        body="Not a key fob and a row of machines. A written programme, coaching on the floor, and terms short enough to read in one sitting."
-        tone="ink"
-      />
+      <Section rule density="default" aria-labelledby="reality-heading">
+        <Reveal>
+          <h2 id="reality-heading" className="display-2 max-w-[20ch]">
+            What membership actually gets you.
+          </h2>
+          <p className="mt-5 max-w-[58ch] text-base leading-relaxed text-bone-2">
+            No equipment list here on purpose: lists go stale, and a list is a
+            poor substitute for seeing the room. Come and look at it before you
+            apply.
+          </p>
+        </Reveal>
+
+        <div className="mt-12 grid gap-px bg-line sm:grid-cols-2">
+          {gymReality.map((item, i) => (
+            <Reveal
+              key={item.id}
+              delay={i * 0.05}
+              blur={false}
+              className="flex min-h-[180px] flex-col bg-ink-2 p-6 sm:p-8"
+            >
+              <h3 className="font-display text-lg font-semibold leading-tight tracking-[-0.02em] text-bone">
+                {item.title}
+              </h3>
+              <p className="mt-3 max-w-[40ch] text-[0.9375rem] leading-relaxed text-bone-2">
+                {item.body}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
       {/* Terms ------------------------------------------------------------- */}
 

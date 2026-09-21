@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { CtaBand } from "@/components/CtaBand";
-import { Floor } from "@/components/home/Floor";
+import { Space } from "@/components/home/Space";
 import { Hero } from "@/components/home/Hero";
 import { PanelBlock } from "@/components/home/PanelBlock";
 import { Training } from "@/components/home/Training";
@@ -23,7 +23,7 @@ export default function HomePage() {
     <>
       <Hero />
       <TwoWays />
-      <Floor />
+      <Space />
       <Marquee
         items={[
           "Bone density",

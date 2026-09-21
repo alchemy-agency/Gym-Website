@@ -36,7 +36,10 @@ export function Plate({
   edge = false,
 }: PlateProps) {
   return (
-    <div className={cn("relative isolate overflow-hidden bg-ink-3", className)}>
+    <div
+      data-plate=""
+      className={cn("relative isolate overflow-hidden bg-ink-3", className)}
+    >
       <Image
         src={photo.src}
         alt={photo.alt}

@@ -217,17 +217,17 @@ export default function BrandPage() {
           <ul className="mt-4 space-y-2 text-[0.9375rem] text-bone-2">
             <li>
               <code className="numeral">/brand/wordmark.svg</code> and{" "}
-              <code className="numeral">/brand/wordmark-ink.svg</code> — the lockup
+              <code className="numeral">/brand/wordmark-ink.svg</code> - the lockup
             </li>
             <li>
               <code className="numeral">/brand/mark.svg</code> and{" "}
-              <code className="numeral">/brand/mark-bone.svg</code> — the mark alone
+              <code className="numeral">/brand/mark-bone.svg</code> - the mark alone
             </li>
             <li>
-              <code className="numeral">src/app/icon.svg</code> — favicon
+              <code className="numeral">src/app/icon.svg</code> - favicon
             </li>
             <li>
-              <code className="numeral">src/components/brand/markPath.ts</code> —
+              <code className="numeral">src/components/brand/markPath.ts</code> -
               generated path data for the React component
             </li>
           </ul>

@@ -221,77 +221,113 @@ async function run() {
   }
 
   /* ---------------------------------------------------------------------
-     2. Home page: the FloorPan overlap test, at several scroll positions
+     2. Home page: overflow at depth.
+        The FloorPan clipped-panel probe used to live here. That section was
+        removed because its content was invented, so what replaces it is the
+        more generally useful test: walk the whole document and assert that
+        nothing escapes the viewport at any scroll depth. Pinned sections,
+        parallax plates and the marquee all only misbehave mid-scroll.
      --------------------------------------------------------------------- */
   {
     const context = await browser.newContext({ viewport: DESKTOP });
     const page = await context.newPage();
-    attachDiagnostics(page, "floorpan");
+    attachDiagnostics(page, "scroll");
     await page.goto(BASE + "/", { waitUntil: "networkidle" });
-    await page.waitForTimeout(800);
+    await page.waitForTimeout(900);
 
-    const hasIntro = await page.locator("[data-floor-intro]").count();
-    const panels = await page.locator("[data-floor-panel]").count();
-    record("floorpan", "intro + panels present", hasIntro === 1 && panels === 6, `intro ${hasIntro}, panels ${panels}`);
+    const height = await page.evaluate(() => document.body.scrollHeight);
+    const steps = 9;
 
-    const geom = await page.evaluate(() => {
-      const intro = document.querySelector("[data-floor-intro]");
-      const wrap = intro?.closest("div.relative.overflow-hidden");
-      const track = document.querySelector("[data-floor-panel]")?.parentElement;
-      if (!intro || !wrap || !track) return null;
-      const viewport = track.parentElement;
-      return {
-        wrapTop: wrap.getBoundingClientRect().top + window.scrollY,
-        wrapHeight: wrap.getBoundingClientRect().height,
-        distance: Math.max(0, track.scrollWidth - viewport.clientWidth),
-        trackScrollWidth: track.scrollWidth,
-        viewportWidth: viewport.clientWidth,
-      };
-    });
-    record("floorpan", "pin geometry measurable", geom !== null && geom.distance > 0, geom ? `distance ${geom.distance}px of ${geom.trackScrollWidth}px track` : "not found");
+    for (let i = 0; i <= steps; i++) {
+      const y = Math.round((height / steps) * i);
+      await page.evaluate((top) => window.scrollTo(0, top), y);
+      await page.waitForTimeout(320);
 
-    if (geom) {
-      const fractions = [0.02, 0.25, 0.5, 0.75, 0.98];
-      for (const f of fractions) {
-        const target = Math.round(geom.wrapTop + geom.distance * f + 10);
-        await page.evaluate((y) => window.scrollTo(0, y), target);
-        await page.waitForTimeout(450);
+      const result = await page.evaluate(() => {
+        const doc = document.documentElement;
+        const vw = doc.clientWidth;
+        /* Only count elements with no clipping ancestor: a clipped element
+           keeps its full layout box, so it reads as overflowing when it is
+           actually being correctly clipped. */
+        const isClipped = (el) => {
+          let p = el.parentElement;
+          while (p && p !== doc && p !== document.body) {
+            const cs = getComputedStyle(p);
+            if (cs.overflowX !== "visible" || cs.overflowY !== "visible") return true;
+            p = p.parentElement;
+          }
+          return false;
+        };
+        const offenders = [];
+        for (const el of document.querySelectorAll("body *")) {
+          const cs = getComputedStyle(el);
+          if (cs.position === "fixed" || cs.display === "none") continue;
+          const r = el.getBoundingClientRect();
+          if (r.width < 1 || r.height < 1) continue;
+          if (r.right <= vw + 1 && r.left >= -1) continue;
+          if (isClipped(el)) continue;
+          offenders.push(
+            el.tagName.toLowerCase() +
+              (typeof el.className === "string" && el.className
+                ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".")
+                : "") +
+              ` [${Math.round(r.left)}..${Math.round(r.right)}]`,
+          );
+        }
+        return { overflow: doc.scrollWidth - vw, offenders: offenders.slice(0, 3) };
+      });
 
-        const probe = await page.evaluate(() => {
-          const intro = document.querySelector("[data-floor-intro]");
-          const r = intro.getBoundingClientRect();
-          const points = [
-            [r.left + r.width * 0.25, r.top + r.height * 0.35],
-            [r.left + r.width * 0.5, r.top + r.height * 0.5],
-            [r.left + r.width * 0.75, r.top + r.height * 0.7],
-            [r.left + r.width * 0.5, r.bottom - 12],
-          ];
-          return points.map(([x, y]) => {
-            const el = document.elementFromPoint(x, y);
-            return {
-              hitPanel: Boolean(el?.closest("[data-floor-panel]")),
-              tag: el?.tagName ?? "none",
-            };
-          });
-        });
-
-        const offenders = probe.filter((p) => p.hitPanel);
-        record(
-          "floorpan",
-          `panels do not cover the intro at ${Math.round(f * 100)}%`,
-          offenders.length === 0,
-          offenders.length
-            ? `${offenders.length}/4 probe points landed on a panel`
-            : "",
-        );
-      }
-
-      /* Capture the pinned section for visual review. */
-      await page.evaluate((y) => window.scrollTo(0, y), Math.round(geom.wrapTop + geom.distance * 0.55 + 10));
-      await page.waitForTimeout(500);
-      await page.screenshot({ path: join(SHOTS, "floorpan-pinned.png") });
+      record(
+        "scroll",
+        `no overflow at ${Math.round((i / steps) * 100)}% depth`,
+        result.overflow <= 1 && result.offenders.length === 0,
+        result.offenders.length ? result.offenders.join(", ") : `${result.overflow}px`,
+      );
     }
 
+    await context.close();
+  }
+
+  /* ---------------------------------------------------------------------
+     2b. Background plates must actually cover their container.
+         A Tailwind position-utility collision once collapsed a full-bleed
+         background photo into a 50px strip. Nothing else noticed: the image
+         decoded fine, nothing overflowed, no console error. The only reliable
+         signal is comparing the plate's box to its parent's.
+     --------------------------------------------------------------------- */
+  for (const route of ["/", "/gym"]) {
+    const context = await browser.newContext({ viewport: DESKTOP });
+    const page = await context.newPage();
+    await page.goto(BASE + route, { waitUntil: "networkidle" });
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(1800);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(600);
+
+    const undersized = await page.evaluate(() => {
+      const out = [];
+      for (const plate of document.querySelectorAll("[data-plate]")) {
+        const parent = plate.parentElement;
+        if (!parent) continue;
+        const p = parent.getBoundingClientRect();
+        const c = plate.getBoundingClientRect();
+        if (p.height < 40) continue;
+        const ratio = c.height / p.height;
+        if (ratio < 0.8 || c.width < p.width * 0.8) {
+          out.push(
+            `${Math.round(c.width)}x${Math.round(c.height)} inside ${Math.round(p.width)}x${Math.round(p.height)} (${Math.round(ratio * 100)}%)`,
+          );
+        }
+      }
+      return out;
+    });
+
+    record(
+      route,
+      "background plates cover their container",
+      undersized.length === 0,
+      undersized.slice(0, 3).join(" | "),
+    );
     await context.close();
   }
 
@@ -405,8 +441,6 @@ async function run() {
     const mobile = await page.evaluate(() => {
       const doc = document.documentElement;
       const vw = doc.clientWidth;
-      const panels = [...document.querySelectorAll("[data-floor-panel]")];
-      const rects = panels.map((p) => p.getBoundingClientRect());
 
       const isClipped = (el) => {
         let p = el.parentElement;
@@ -440,11 +474,6 @@ async function run() {
       return {
         overflow: doc.scrollWidth - vw,
         offenders: offenders.slice(0, 8),
-        /* Stacked means roughly equal left edges and increasing top edges. */
-        stacked:
-          rects.length > 1 &&
-          Math.abs(rects[0].left - rects[1].left) < 2 &&
-          rects[1].top > rects[0].top,
       };
     });
 
@@ -459,7 +488,24 @@ async function run() {
           .join("  ||  "),
       );
     }
-    record("mobile", "pan degrades to a stacked list", mobile.stacked, "");
+    /* The full-bleed split panel must actually stack, not sit side by side
+       squeezed, on a phone. */
+    const twoUp = await page.evaluate(() => {
+      const section = document.querySelector("#the-two-ways-in");
+      /* :scope > div skips the sr-only h2, which is the first child. */
+      const grid = section?.querySelector(":scope > div");
+      const panels = grid ? [...grid.children] : [];
+      if (panels.length < 2) return null;
+      const a = panels[0].getBoundingClientRect();
+      const b = panels[1].getBoundingClientRect();
+      return { stacked: b.top > a.bottom - 4, aWidth: Math.round(a.width) };
+    });
+    record(
+      "mobile",
+      "two ways panel stacks",
+      twoUp?.stacked === true,
+      twoUp ? `first panel ${twoUp.aWidth}px wide` : "not found",
+    );
     await page.screenshot({ path: join(SHOTS, "mobile-home.png"), fullPage: true });
     await context.close();
   }

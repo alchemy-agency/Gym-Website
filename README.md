@@ -61,9 +61,9 @@ still empty, so the framework preset defaulted to **Other** and got cached.
 
 Two fixes, and it is worth doing both:
 
-1. **In the repo** — `vercel.json` already pins `"framework": "nextjs"`.
+1. **In the repo** - `vercel.json` already pins `"framework": "nextjs"`.
    Commit and redeploy.
-2. **In the dashboard** — go to **Settings → Build and Deployment → Framework
+2. **In the dashboard** - go to **Settings → Build and Deployment → Framework
    Preset**, set it to **Next.js**, and confirm **Output Directory** is empty
    (not `public`). Then redeploy.
 
@@ -135,10 +135,10 @@ pick one so conversions do not double count.
 Form submissions POST to `/api/lead` (`src/app/api/lead/route.ts`), which
 validates, rate limits, and forwards them. Set **one** of these:
 
-- `LEAD_WEBHOOK_URL` — a Zapier / Make / n8n catch hook, a Slack incoming
+- `LEAD_WEBHOOK_URL` - a Zapier / Make / n8n catch hook, a Slack incoming
   webhook, or Formspree. The body is JSON and includes a pre-formatted
   `subject` and `text` field, so a Slack webhook works with zero mapping.
-- `RESEND_API_KEY` + `LEAD_EMAIL_TO` + `LEAD_EMAIL_FROM` — emails each lead
+- `RESEND_API_KEY` + `LEAD_EMAIL_TO` + `LEAD_EMAIL_FROM` - emails each lead
   directly, with `reply_to` set to the enquirer.
 
 If neither is set, the submission is written to the Vercel function logs with
@@ -163,8 +163,8 @@ in the source.
 
 **In `src/content/offers.ts`**
 
-- [ ] **`facilityList`** — the equipment list. Confirm it against the real floor.
-- [ ] **`membershipTerms`** — confirm the terms with Sam.
+- [ ] **`facilityList`** - the equipment list. Confirm it against the real floor.
+- [ ] **`membershipTerms`** - confirm the terms with Sam.
 - [ ] **Package structure.** No dollar amounts appear anywhere on the site on
       purpose: everything says "rates on request". When Sam gives you numbers,
       add a `rate` field to each entry in `packages` and render it.
@@ -177,27 +177,52 @@ in the source.
 - [ ] The marker list is a representative sample of what a panel of this kind
       covers. It is presented as examples, not as the full test list.
 
-**Photography — `src/content/photos.ts`**
+**Photography - `src/content/photos.ts`**
 
-Every image is a free-to-use Unsplash placeholder chosen to match the shot that
-belongs in that slot. The site applies a monochrome + pine duotone treatment to
-all photography, so replacement photos will sit in the design even if they were
-shot on a phone, as long as they are reasonably well lit.
+Three of the images are **real photographs of Sam's own gym**, pulled from
+samsbodyshop.com and resized into `public/images/`:
 
-Shoot list in priority order:
+| File | What it shows |
+| --- | --- |
+| `runner-track.jpg` | A runner on an outdoor track. Portrait, used in the heroes. |
+| `gym-exterior.jpg` | The building, roller door and mirrored windows. |
+| `gym-mural.jpg` | The wave and palm tree mural. Panoramic, used as a wide band. |
 
-1. `hero` — the training floor, wide, lights on
-2. `portraitSam` — Sam, waist up, eyes to camera, low key
-3. `gymFloor` — free weights and racks, empty
-4. `coaching` — Sam coaching one client, mid-rep
-5. `detail` — a hand on a knurled bar, or chalk, or a loaded plate
-6. `conditioning` — rower, bike or sled
-7. `coastal` — Huntington Beach, overcast or dusk, not a postcard
-8. `lab` — a clean clinical shot (tubes, not needles)
+Two remain free stock, kept only where nothing about the gym is being claimed
+and no equipment is visible: blood collection tubes for the Function Health
+page, and the Huntington Beach pier for the visit page.
 
-Replace the `src` values in `src/content/photos.ts`. Nothing else needs to
-change. If you host them locally instead of on Unsplash, drop them in
-`public/` and use `/filename.jpg`.
+**One photo is downloaded but deliberately unused.** `gym-floor.jpg` sits in
+`public/images/` and is not referenced anywhere. It is a real photo of a Sam's
+Ultimate Body Shop floor, but it is dense with machines and it has not been
+confirmed whether it is the Autopark Drive room or a different location. Confirm
+with Sam, then wire it in.
+
+**The highest value shot is now a portrait of Sam.** It is the one image the
+site is missing, and the training section is laid out to take it: the sticky
+column currently holds his quote and is sized for a photo. Drop the file into
+`public/images/` and swap the quote block back to a `<Plate>`.
+
+Every image is rendered as warm toned black and white by `<Plate>`, so real
+photos shot on a phone sit in the design alongside anything else.
+
+#### The position-utility trap
+
+`<Plate>` sets `relative` because a Next.js `fill` image needs a positioned
+parent. If a caller also passes `absolute`, **both are Tailwind `position`
+utilities and whichever is emitted later in the stylesheet wins**, regardless of
+the order you write them. That silently collapsed a full-bleed background photo
+into a 50px strip: the image decoded fine, nothing overflowed, and no console
+error was logged. If you need an absolutely positioned plate, wrap it:
+
+```tsx
+<div className="absolute inset-0 -z-10">
+  <Plate photo={photo} className="h-full w-full" />
+</div>
+```
+
+`npm run verify` now asserts that every `[data-plate]` covers at least 80% of
+its parent, so this cannot come back quietly.
 
 **Not built on purpose**
 
@@ -212,16 +237,16 @@ change. If you host them locally instead of on Unsplash, drop them in
 All tokens live in `src/app/globals.css`. Four decisions are locked in, and
 breaking them is what makes the site look generic again:
 
-1. **Theme lock** — the whole site is dark. Variety comes from tonal steps
+1. **Theme lock** - the whole site is dark. Variety comes from tonal steps
    inside the dark range (`ink` → `ink-4` → `void`) plus ember ambient light,
    never from a section inverting to light.
-2. **Hue lock** — the palette is warm neutral. There is no green, no blue and no
+2. **Hue lock** - the palette is warm neutral. There is no green, no blue and no
    second accent. Ember (`#ff610f`, the exact orange from the supplied brand mark) is the only colour, reserved for things that
    need to be found: the free session, live state, focus rings, meaningful
    numbers. It is never a large fill.
-3. **Shape lock** — corner radius is `0` everywhere. The only circle in the
+3. **Shape lock** - corner radius is `0` everywhere. The only circle in the
    layout is the semantic status dot.
-4. **Photo lock** — every image goes through `<Plate>`, which renders it as warm
+4. **Photo lock** - every image goes through `<Plate>`, which renders it as warm
    toned black and white (`grayscale` + a whisper of `sepia`). That is what
    makes eight unrelated photographs read as one art-directed shoot, and it
    leaves ember as the only real colour on the page.
@@ -245,7 +270,7 @@ reintroduce a green cast.
 ## Animation
 
 Two engines, kept apart on purpose. The rule is that **GSAP and Motion must
-never share a component tree** — they fight over the same frames.
+never share a component tree** - they fight over the same frames.
 
 **Motion** (`motion/react`) handles state and scroll reveals:
 `Reveal`, `ParallaxPlate`, `Magnetic`, `Accordion`, `PanelExplorer`, `Template`.
@@ -257,11 +282,15 @@ client leaf under `src/components/gsap/`:
 | --- | --- | --- |
 | `HeadlineReveal` | Hero words rise out of per-word clipping masks | Hierarchy: the value prop assembles itself |
 | `Marquee` | One kinetic band, accelerated by scroll velocity | Storytelling: Sam's four training goals as connective tissue |
-| `FloorPan` | Pinned horizontal pan of the equipment groups | Reveal: six parallel things read at full size instead of crushed into a table |
 | `Counter` | Scrubbed count to 160+ | Makes the size of the panel offer land |
 
 There is exactly **one marquee** on the site. A second would make both feel like
 filler.
+
+A fourth GSAP component, `FloorPan`, was deleted. It was a pinned horizontal pan
+of equipment categories and every item in it was invented. Inventing a list is
+worse than omitting one, because somebody could join on the strength of it. It
+is recoverable from git history if Sam ever supplies a real equipment list.
 
 ### Constraints these components respect
 
@@ -276,7 +305,7 @@ filler.
   make it the containing block for `position: fixed`, which silently breaks
   ScrollTrigger pinning. Do not add a `y` or `scale` to it.
 - Hero copy and CTAs are static server markup. The headline is real text with
-  real spaces, split into spans, and it is **not** hidden in CSS — GSAP hides it
+  real spaces, split into spans, and it is **not** hidden in CSS - GSAP hides it
   inside a layout effect so no-JS visitors still see a full headline and nothing
   delays a pre-hydration paint.
 - Blur reveals are opt-out (`blur={false}`) on long lists, because animating
@@ -370,7 +399,7 @@ src/
     Accordion, Process, FaqSection, CtaBand, PageHero, Bits, Logo,
     ContactLinks, GoogleTag, Grain, MarkerGroups, PanelExplorer, Magnetic, Bento
     forms/LeadForm.tsx      both forms, field config in src/lib/lead.ts
-    gsap/                   HeadlineReveal, Marquee, FloorPan, Counter
+    gsap/                   HeadlineReveal, Marquee, Counter
     brand/markPath.ts       generated brand path data
     home/                   the home page sections
   content/                  ALL copy and business facts live here
